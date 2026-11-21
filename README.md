@@ -51,6 +51,16 @@ Govee API.
   `static/app.js` only adds the hover crosshair and tooltip. Long ranges are averaged
   into about 400 buckets in SQL. Lines break where no data was logged.
 
+## Where it can run
+
+The per-minute history comes over Bluetooth, which only reaches about 10 m, so
+the app has to run on a computer **inside the house, within Bluetooth range of
+the sensors** (being on the home network is not enough). In its current form it
+is not suitable for cloud hosting. A cloud copy with `-ble=false` would only get
+the Govee API's current value, which refreshes about hourly, plus whatever CSV
+exports you upload. The computer doesn't have to be on all the time: anything it
+misses is downloaded on the next sync, as long as that is within 20 days.
+
 ## Run
 
 ```sh

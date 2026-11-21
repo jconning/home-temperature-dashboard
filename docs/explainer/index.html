@@ -112,19 +112,14 @@ code, .mono { font-family: var(--f-mono); font-size: .9em; }
 .airflow .d2 { animation-duration: 4.2s; stroke-dasharray: 30 170; } .airflow .d3 { animation-duration: 2.4s; stroke-dasharray: 90 210; }
 .hazard { height: 12px; background: repeating-linear-gradient(-45deg, var(--accent) 0 14px, #1b1b1b 14px 28px); background-size: 39.6px 39.6px; animation: hazard 2.5s linear infinite; }
 
-/* ---------- Credit + starburst ---------- */
+/* ---------- Starburst ---------- */
 .credit-row { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 12px 26px; padding-block: 20px 0; }
-.credit { position: relative; max-width: 360px; min-width: 0; background: var(--accent); color: var(--accent-ink); padding: 13px 16px 12px 26px; border-radius: 3px; transform: rotate(-1.5deg); box-shadow: 0 3px 0 var(--accent-deep), 0 8px 16px rgba(0,0,0,.2); }
-.credit::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 12px; border-radius: 3px 0 0 3px; background: repeating-linear-gradient(-45deg, #1b1b1b 0 5px, var(--accent) 5px 10px); }
-.credit::after { content: ""; position: absolute; top: -9px; left: 50%; width: 74px; height: 20px; transform: translateX(-50%) rotate(3deg); background: rgba(255,255,255,.55); box-shadow: 0 1px 2px rgba(0,0,0,.15); }
-.credit b { display: block; font: 700 18px/1.25 var(--f-label); letter-spacing: .02em; }
-.credit small { display: block; margin-top: 5px; font: 500 12.5px/1.4 var(--f-body); }
 .burst { width: 156px; flex: none; transform: rotate(8deg); }
 .burst svg { display: block; width: 100%; height: auto; overflow: visible; }
 .burst .star { fill: var(--burst); stroke: var(--burst-edge); stroke-width: 3; stroke-linejoin: round; transform-origin: 100px 100px; animation: spin 30s linear infinite; filter: drop-shadow(0 4px 6px rgba(0,0,0,.3)); }
 .burst .ring { fill: none; stroke: var(--burst-ink); stroke-width: 1.5; stroke-dasharray: 4 5; opacity: .75; transform-origin: 100px 100px; animation: spin 20s linear infinite reverse; }
 .burst .txt { transform-origin: 100px 100px; animation: pulse 2.4s ease-in-out infinite; }
-.burst text { fill: var(--burst-ink); font: 700 19px var(--f-label); text-anchor: middle; letter-spacing: .02em; }
+.burst text { fill: var(--burst-ink); font: 700 17px var(--f-label); text-anchor: middle; letter-spacing: .02em; }
 @keyframes pulse { 50% { transform: scale(1.07); } }
 @media (max-width: 560px) { .credit-row { justify-content: center; } .burst { width: 128px; } }
 
@@ -429,14 +424,12 @@ pre.code .c { color: var(--code-dim); } pre.code .k { color: #ffd54a; } pre.code
 
 <aside class="credit-row" aria-label="About this page">
   <div class="burst">
-    <svg viewBox="0 0 200 200" role="img" aria-label="Jim’s home bluetooth/wifi thermometers">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Bluetooth/Wifi Thermometer Dashboard">
       <polygon class="star" id="burst-star" points="100,4 196,100 100,196 4,100"/>
       <circle class="ring" cx="100" cy="100" r="66"/>
-      <g class="txt"><text x="100" y="82">Jim’s home</text><text x="100" y="105">bluetooth/wifi</text><text x="100" y="128">thermometers</text></g>
+      <g class="txt"><text x="100" y="85">Bluetooth/Wifi</text><text x="100" y="106">Thermometer</text><text x="100" y="127">Dashboard</text></g>
     </svg>
-  </div>
-  <p class="credit"><b>Vibe-coded by JimC in his personal Claude account.</b></p>
-</aside>
+  </div></aside>
 
 <section class="hero">
   <div>
@@ -468,7 +461,7 @@ pre.code .c { color: var(--code-dim); } pre.code .k { color: #ffd54a; } pre.code
 <section class="panel" id="schematic">
   <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
   <div class="panel-head"><span class="plate">Sheet 1</span><h2>System schematic</h2></div>
-  <p class="intro">Readings take three routes into one MySQL cache. The main one is Bluetooth: every three hours the laptop connects to each sensor and downloads every minute it hasn't seen yet. The Govee cloud fills in a rough "right now" between syncs, and CSV exports from the Govee app back-fill anything older than the sensors' 20-day memory.</p>
+  <p class="intro">Readings take three routes into one MySQL cache. The main one is Bluetooth: every three hours the laptop connects to each sensor and downloads every minute it hasn't seen yet. The Govee cloud fills in a rough "right now" between syncs, and CSV exports from the Govee app back-fill anything older than the sensors' 20-day memory. Bluetooth only reaches about 10 metres, so the app has to run on a computer inside the house, within range of the sensors. In its current form it can't be hosted in the cloud.</p>
   <div class="scroll-x">
   <svg class="schematic" viewBox="0 0 1180 560" role="img" aria-label="Data flows from three thermometers over Bluetooth into the Go app on the laptop, then into MySQL and out to the browser. A dashed cloud route and a CSV import route also feed MySQL.">
     <!-- duct routes, reused by the visible ducts and the moving packets -->
