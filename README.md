@@ -5,7 +5,9 @@ them in MySQL and serves server-rendered temperature and humidity charts with an
 HVAC-technician theme ("HVAC Thermal Survey"). The program and its macOS login
 item are named `govee-hvac`.
 
-`docs/explainer/` is a static page explaining how it all works, with screenshots.
+**[View the explainer page](https://jconning.github.io/home-temperature-dashboard/explainer/)**:
+an animated walkthrough of how it all works, with screenshots (source in
+`docs/explainer/`, served by GitHub Pages from `/docs`).
 Device IDs and Bluetooth names in the docs and tests are placeholders such as
 `A1:B2:C3:D4:E5:F6:1A:2B` / `GV5179_1A2B`; the app learns the real ones from the
 Govee API.
