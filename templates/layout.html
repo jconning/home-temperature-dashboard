@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{if eq .Nav "dashboard" "room"}}<meta http-equiv="refresh" content="{{.Interval.Seconds}}">{{end}}
+<title>{{.Title}} · HVAC Thermal Survey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;700&family=Saira+Stencil+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+<link rel="icon" href="/static/fan.svg" type="image/svg+xml">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="fan" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="30" class="fan-ring"/>
+      <g class="fan-blades">
+        <path d="M32 32 C26 22 26 10 32 5 C40 9 40 22 32 32Z"/>
+        <path d="M32 32 C26 22 26 10 32 5 C40 9 40 22 32 32Z" transform="rotate(72 32 32)"/>
+        <path d="M32 32 C26 22 26 10 32 5 C40 9 40 22 32 32Z" transform="rotate(144 32 32)"/>
+        <path d="M32 32 C26 22 26 10 32 5 C40 9 40 22 32 32Z" transform="rotate(216 32 32)"/>
+        <path d="M32 32 C26 22 26 10 32 5 C40 9 40 22 32 32Z" transform="rotate(288 32 32)"/>
+      </g>
+      <circle cx="32" cy="32" r="5" class="fan-hub"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="plenum">
+  <div class="plenum-inner">
+    <a class="brand" href="/">
+      <span class="fan-housing"><svg class="fan spin" viewBox="0 0 64 64" aria-hidden="true"><use href="#fan"/></svg></span>
+      <span>
+        <span class="brand-title">Thermal Survey</span>
+        <span class="brand-sub">HVAC service terminal · Govee H5179 sensor array</span>
+      </span>
+    </a>
+    <nav class="nav">
+      <a href="/" {{if eq .Nav "dashboard"}}aria-current="page"{{end}}>All zones</a>
+      {{range .Rooms}}<a href="/room/{{path .ID}}" {{if and $.Room (eq $.Room.ID .ID)}}aria-current="page"{{end}}>{{.Name}}</a>{{end}}
+      <a href="/import" {{if eq .Nav "import"}}aria-current="page"{{end}}>Import</a>
+    </nav>
+  </div>
+  <svg class="airflow" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 12 H1200"/><path d="M0 22 H1200" class="d2"/><path d="M0 32 H1200" class="d3"/>
+  </svg>
+</header>
+<div class="hazard" aria-hidden="true"></div>
+
+<main class="wrap">
+  {{if .Msg}}<p class="flash ok" role="status"><span aria-hidden="true">✓</span> {{.Msg}}</p>{{end}}
+  {{if .Err}}<p class="flash bad" role="alert"><span aria-hidden="true">✕</span> {{.Err}}</p>{{end}}
+  {{template "content" .}}
+</main>
+
+<footer class="ticket wrap">
+  <div class="ticket-head">
+    <span class="stencil">Service ticket</span>
+    <span class="ticket-actions">
+      {{if .BLE}}<form method="post" action="/ble-sync"><button class="btn" type="submit" {{if .BLE.Running}}disabled{{end}}><svg class="btn-fan" viewBox="0 0 64 64" aria-hidden="true"><use href="#fan"/></svg>Sync via Bluetooth</button></form>{{end}}
+      <form method="post" action="/poll"><button class="btn btn-alt" type="submit"><svg class="btn-fan" viewBox="0 0 64 64" aria-hidden="true"><use href="#fan"/></svg>Poll Govee cloud</button></form>
+    </span>
+  </div>
+  <dl class="ticket-grid">
+    {{with .BLE}}
+    <div><dt>Bluetooth sync</dt><dd>{{if .Running}}<span class="pulse">Syncing {{.Current}}…</span>{{else}}{{clock .LastRun}} <small>({{ago .LastRun}})</small>{{end}}</dd></div>
+    <div><dt>Next Bluetooth sync</dt><dd>{{clock .NextRun}}</dd></div>
+    {{end}}
+    <div><dt>Cloud poll</dt><dd>{{if .Poll.Polling}}<span class="pulse">In progress…</span>{{else}}{{clock .Poll.LastPoll}} <small>({{ago .Poll.LastPoll}})</small>{{end}}</dd></div>
+    <div><dt>Cloud poll interval</dt><dd>{{.Interval}}</dd></div>
+    {{with .BLE}}{{if or .Results .Err}}
+    <div class="wide"><dt>Bluetooth log</dt><dd>
+      {{if .Err}}<span class="fault"><span aria-hidden="true">⚠</span> {{.Err}}</span>{{end}}
+      {{range .Results}}<div>{{if .Err}}<span class="fault"><span aria-hidden="true">⚠</span> {{.Name}}: {{.Err}}</span>{{else}}<span class="okay"><span aria-hidden="true">✓</span> {{.Name}}: {{if .Readings}}{{.Readings}} readings, {{.New}} new{{else}}already up to date{{end}}</span>{{end}} <small>({{.Took}})</small></div>{{end}}
+    </dd></div>
+    {{end}}{{end}}
+    {{if .Total}}<div><dt>Readings cached</dt><dd>{{.Total}}</dd></div>{{end}}
+    <div class="wide"><dt>Tech notes</dt><dd>{{if .Poll.LastErr}}<span class="fault"><span aria-hidden="true">⚠</span> {{.Poll.LastErr}}</span>{{else}}<span class="okay"><span aria-hidden="true">✓</span> All systems nominal</span>{{end}}</dd></div>
+  </dl>
+</footer>
+<script src="/static/app.js" defer></script>
+</body>
+</html>

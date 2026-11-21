@@ -1,0 +1,35 @@
+{{define "content"}}
+<section class="zones" aria-label="Current conditions">
+  {{range .Rooms}}
+  <article class="unit">
+    <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+    <header class="unit-head">
+      <span class="plate">Zone {{printf "%02d" .Zone}}</span>
+      {{template "status" .}}
+    </header>
+    <h2 class="unit-name"><span class="swatch s{{.Slot}}" aria-hidden="true"></span><a href="/room/{{path .ID}}">{{.Name}}</a></h2>
+    <div class="unit-body">
+      {{template "gauge" .}}
+      <div class="readout">
+        <div class="lcd">{{if .HasReading}}{{f1 .TempF}}<small>°F</small>{{else}}--.-{{end}}</div>
+        <div class="hygro" aria-label="Humidity">
+          <div class="hygro-tube"><div class="hygro-fill" style="--h: {{if .HasHum}}{{pct .Hum}}{{else}}0{{end}}%"></div></div>
+          <div class="hygro-val">{{if .HasHum}}{{f1 .Hum}}<small>%RH</small>{{else}}--{{end}}</div>
+        </div>
+      </div>
+    </div>
+    <footer class="unit-foot">
+      <span>Last reading {{ago .When}}</span>
+      <span class="sku">{{.SKU}}</span>
+    </footer>
+    <div class="vent" aria-hidden="true"></div>
+  </article>
+  {{else}}
+  <div class="panel empty">
+    <svg class="fan spin big" viewBox="0 0 64 64" aria-hidden="true"><use href="#fan"/></svg>
+    <p>No thermometers registered yet. The first device sync runs at startup. Refresh in a few seconds.</p>
+  </div>
+  {{end}}
+</section>
+{{template "charts" .}}
+{{end}}

@@ -1,0 +1,1295 @@
+<title>Thermal Survey Field Manual</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Saira+Condensed:wght@500;700&family=Saira+Stencil+One&display=swap" rel="stylesheet">
+<style>
+/* Layout: a technician's field manual. Riveted sheet-metal service panels stacked under a
+   plenum header, each panel opening one part of the machine. Same tokens as the app. */
+:root {
+  color-scheme: light;
+  --page: #cfd4d8; --grain: rgba(255,255,255,.35);
+  --panel-a: #f1f3f4; --panel-b: #dde1e4; --panel-edge: #aab1b7;
+  --ink: #14181b; --ink-2: #464d53; --muted: #61686f; --hair: rgba(20,24,27,.12);
+  --accent: #f2b705; --accent-ink: #191919; --accent-deep: #9b7600;
+  --plenum-a: #39424a; --plenum-b: #232a30; --plenum-ink: #f2f4f5; --plenum-sub: #b9c2c9;
+  --rivet: radial-gradient(circle at 35% 35%, #fff, #9aa2a8 55%, #6b7379);
+  --lcd-bg: #b8c7a2; --lcd-ink: #1d2a17;
+  --gauge-face: #f7f5ee; --gauge-bezel: #8e979e; --needle: #c62828;
+  --chart-surface: #fcfcfb; --grid: #e1e0d9; --axis: #c3c2b7; --chart-muted: #6e6c66; --chart-ink-2: #52514e;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a;
+  --cold: #2a78d6; --hot: #d03b3b; --mid: #f0efec;
+  --good: #0ca30c; --warning: #fab219; --critical: #d03b3b;
+  --duct: #8a949c; --duct-in: #c9d0d5; --flow: #2a78d6;
+  --ticket: #fbf6dc; --ticket-ink: #2a2616; --ticket-edge: #b5a96b; --ticket-label: #6b6340;
+  --code-bg: #1d2226; --code-ink: #d7e0e6; --code-dim: #7d8a94;
+  --burst: #d03b3b; --burst-edge: #7d1c1c; --burst-ink: #ffffff; /* same in both themes */
+  --f-display: "Saira Stencil One", "Saira Condensed", Impact, sans-serif;
+  --f-label: "Saira Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #111417; --grain: rgba(255,255,255,.02);
+    --panel-a: #242a2f; --panel-b: #1b2024; --panel-edge: #3a434a;
+    --ink: #eef1f3; --ink-2: #bcc3c9; --muted: #8d959c; --hair: rgba(255,255,255,.1);
+    --plenum-a: #2b3238; --plenum-b: #161a1e;
+    --rivet: radial-gradient(circle at 35% 35%, #c9d0d5, #5f676d 55%, #2f3539);
+    --lcd-bg: #0f1c13; --lcd-ink: #8ef0a6;
+    --gauge-face: #1c2024; --gauge-bezel: #59636b; --needle: #ef5350;
+    --chart-surface: #1a1a19; --grid: #2c2c2a; --axis: #383835; --chart-muted: #898781; --chart-ink-2: #c3c2b7;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70;
+    --cold: #3987e5; --hot: #e66767; --mid: #383835;
+    --duct: #4a545c; --duct-in: #2a3137; --flow: #6fb6ff;
+    --ticket: #2a2718; --ticket-ink: #efe8c4; --ticket-edge: #6b6340; --ticket-label: #b8ad7a;
+    --code-bg: #0c0f11; --code-ink: #d7e0e6; --code-dim: #6b7780;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #111417; --grain: rgba(255,255,255,.02);
+  --panel-a: #242a2f; --panel-b: #1b2024; --panel-edge: #3a434a;
+  --ink: #eef1f3; --ink-2: #bcc3c9; --muted: #8d959c; --hair: rgba(255,255,255,.1);
+  --plenum-a: #2b3238; --plenum-b: #161a1e;
+  --rivet: radial-gradient(circle at 35% 35%, #c9d0d5, #5f676d 55%, #2f3539);
+  --lcd-bg: #0f1c13; --lcd-ink: #8ef0a6;
+  --gauge-face: #1c2024; --gauge-bezel: #59636b; --needle: #ef5350;
+  --chart-surface: #1a1a19; --grid: #2c2c2a; --axis: #383835; --chart-muted: #898781; --chart-ink-2: #c3c2b7;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70;
+  --cold: #3987e5; --hot: #e66767; --mid: #383835;
+  --duct: #4a545c; --duct-in: #2a3137; --flow: #6fb6ff;
+  --ticket: #2a2718; --ticket-ink: #efe8c4; --ticket-edge: #6b6340; --ticket-label: #b8ad7a;
+  --code-bg: #0c0f11; --code-ink: #d7e0e6; --code-dim: #6b7780;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; color: var(--ink); background-color: var(--page);
+  background-image:
+    repeating-linear-gradient(115deg, var(--grain) 0 2px, transparent 2px 9px),
+    repeating-linear-gradient(25deg, var(--grain) 0 1px, transparent 1px 13px);
+  font: 16px/1.55 var(--f-body);
+}
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.gutter { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: 1180px; margin: 0 auto; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; max-width: 68ch; }
+.stencil { font-family: var(--f-display); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; }
+.label { font: 700 12px/1.2 var(--f-label); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+code, .mono { font-family: var(--f-mono); font-size: .9em; }
+
+/* ---------- Plenum header ---------- */
+.plenum {
+  position: relative; overflow: hidden; color: var(--plenum-ink);
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0 1px, transparent 1px 4px), linear-gradient(180deg, var(--plenum-a), var(--plenum-b));
+}
+.plenum-bar { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; justify-content: space-between; padding-block: 14px 10px; position: relative; z-index: 2; }
+.brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+.brand-title { display: block; font: 400 26px/1 var(--f-display); letter-spacing: .04em; color: var(--accent); text-transform: uppercase; }
+.brand-sub { display: block; font: 500 13px/1.3 var(--f-label); letter-spacing: .1em; text-transform: uppercase; color: var(--plenum-sub); }
+.fan-housing { width: 54px; height: 54px; flex: none; border-radius: 50%; display: grid; place-items: center; position: relative;
+  background: radial-gradient(circle, #20262b 60%, #4a545c 62%, #2a3137 70%); box-shadow: inset 0 0 0 3px #59636b, 0 2px 6px rgba(0,0,0,.4); }
+.fan-housing::after { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: repeating-radial-gradient(circle, transparent 0 5px, rgba(200,208,214,.35) 5px 6px); }
+.fan { width: 44px; height: 44px; }
+.fan .blades { fill: #aab4bc; } .fan .hub { fill: var(--accent); }
+.spin { animation: spin 1.6s linear infinite; transform-origin: center; transform-box: fill-box; }
+.nav { display: flex; flex-wrap: wrap; gap: 6px; }
+.nav a { font: 700 13px/1 var(--f-label); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: #dfe5e9; padding: 8px 11px; border-radius: 4px; border: 1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.15); }
+.nav a:hover { border-color: var(--accent); color: #fff; }
+.airflow { position: absolute; inset: auto 0 0; width: 100%; height: 40px; opacity: .35; pointer-events: none; }
+.airflow path { stroke: #9fd3ff; stroke-width: 1.2; fill: none; stroke-dasharray: 60 140; animation: flow 3s linear infinite; }
+.airflow .d2 { animation-duration: 4.2s; stroke-dasharray: 30 170; } .airflow .d3 { animation-duration: 2.4s; stroke-dasharray: 90 210; }
+.hazard { height: 12px; background: repeating-linear-gradient(-45deg, var(--accent) 0 14px, #1b1b1b 14px 28px); background-size: 39.6px 39.6px; animation: hazard 2.5s linear infinite; }
+
+/* ---------- Credit + starburst ---------- */
+.credit-row { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 12px 26px; padding-block: 20px 0; }
+.credit { position: relative; max-width: 360px; min-width: 0; background: var(--accent); color: var(--accent-ink); padding: 13px 16px 12px 26px; border-radius: 3px; transform: rotate(-1.5deg); box-shadow: 0 3px 0 var(--accent-deep), 0 8px 16px rgba(0,0,0,.2); }
+.credit::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 12px; border-radius: 3px 0 0 3px; background: repeating-linear-gradient(-45deg, #1b1b1b 0 5px, var(--accent) 5px 10px); }
+.credit::after { content: ""; position: absolute; top: -9px; left: 50%; width: 74px; height: 20px; transform: translateX(-50%) rotate(3deg); background: rgba(255,255,255,.55); box-shadow: 0 1px 2px rgba(0,0,0,.15); }
+.credit b { display: block; font: 700 18px/1.25 var(--f-label); letter-spacing: .02em; }
+.credit small { display: block; margin-top: 5px; font: 500 12.5px/1.4 var(--f-body); }
+.burst { width: 156px; flex: none; transform: rotate(8deg); }
+.burst svg { display: block; width: 100%; height: auto; overflow: visible; }
+.burst .star { fill: var(--burst); stroke: var(--burst-edge); stroke-width: 3; stroke-linejoin: round; transform-origin: 100px 100px; animation: spin 30s linear infinite; filter: drop-shadow(0 4px 6px rgba(0,0,0,.3)); }
+.burst .ring { fill: none; stroke: var(--burst-ink); stroke-width: 1.5; stroke-dasharray: 4 5; opacity: .75; transform-origin: 100px 100px; animation: spin 20s linear infinite reverse; }
+.burst .txt { transform-origin: 100px 100px; animation: pulse 2.4s ease-in-out infinite; }
+.burst text { fill: var(--burst-ink); font: 700 19px var(--f-label); text-anchor: middle; letter-spacing: .02em; }
+@keyframes pulse { 50% { transform: scale(1.07); } }
+@media (max-width: 560px) { .credit-row { justify-content: center; } .burst { width: 128px; } }
+
+/* ---------- Hero ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 28px; align-items: center; padding-block: 10px 10px; }
+.hero h1 { font: 400 clamp(40px, 6.4vw, 78px)/.95 var(--f-display); letter-spacing: .03em; text-transform: uppercase; }
+.hero h1 .yel { color: var(--accent); -webkit-text-stroke: 1.5px var(--accent-ink); paint-order: stroke fill; }
+.hero .lede { font-size: 19px; color: var(--ink-2); margin-top: 14px; }
+.tagrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.tag { font: 700 12px/1 var(--f-label); letter-spacing: .1em; text-transform: uppercase; padding: 6px 9px; border-radius: 3px; border: 1px solid var(--panel-edge); color: var(--ink-2); background: var(--panel-a); }
+.tag.y { background: var(--accent); color: var(--accent-ink); border-color: var(--accent-deep); }
+.machine { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--panel-edge); background: var(--chart-surface); box-shadow: 0 2px 10px rgba(0,0,0,.15); aspect-ratio: 16 / 10; max-width: 100%; }
+.machine canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.machine .cap { position: absolute; left: 10px; bottom: 8px; font: 700 11px var(--f-label); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); background: color-mix(in srgb, var(--chart-surface) 80%, transparent); padding: 3px 6px; border-radius: 3px; }
+
+.stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; padding-block: 22px 8px; }
+.stat { background: var(--panel-a); border: 1px solid var(--panel-edge); border-left: 6px solid var(--accent); border-radius: 4px; padding: 10px 12px; min-width: 0; }
+.stat .v { font: 700 30px/1.05 var(--f-label); font-variant-numeric: tabular-nums; display: block; }
+.stat .k { font: 700 11px/1.25 var(--f-label); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+/* ---------- Panels ---------- */
+main { display: grid; gap: 22px; padding-block: 18px 10px; }
+.panel { position: relative; background: linear-gradient(170deg, var(--panel-a), var(--panel-b)); border: 1px solid var(--panel-edge); border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 2px 8px rgba(0,0,0,.12); padding: 26px 26px 30px; min-width: 0; }
+.rivet { position: absolute; width: 9px; height: 9px; border-radius: 50%; background: var(--rivet); box-shadow: 0 1px 1px rgba(0,0,0,.35); }
+.rivet.tl { top: 8px; left: 8px; } .rivet.tr { top: 8px; right: 8px; } .rivet.bl { bottom: 8px; left: 8px; } .rivet.br { bottom: 8px; right: 8px; }
+.panel-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-bottom: 14px; }
+.plate { font: 400 13px/1 var(--f-display); letter-spacing: .06em; text-transform: uppercase; padding: 5px 10px; border-radius: 3px; background: var(--accent); color: var(--accent-ink); box-shadow: inset 0 0 0 1px rgba(0,0,0,.25); }
+.panel h2 { font: 400 clamp(24px, 3.2vw, 34px)/1.1 var(--f-display); letter-spacing: .04em; text-transform: uppercase; }
+.panel .intro { color: var(--ink-2); margin-bottom: 18px; font-size: 17px; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ---------- Schematic ---------- */
+.schematic { min-width: 820px; display: block; width: 100%; height: auto; font-family: var(--f-label); }
+.duct-outer { fill: none; stroke: var(--duct); stroke-width: 18; stroke-linecap: round; stroke-linejoin: round; }
+.duct-inner { fill: none; stroke: var(--duct-in); stroke-width: 12; stroke-linecap: round; stroke-linejoin: round; }
+.duct-flow { fill: none; stroke: var(--flow); stroke-width: 2.5; stroke-dasharray: 10 14; stroke-linecap: round; animation: flow2 1.2s linear infinite; }
+.duct-flow.slow { animation-duration: 3.5s; stroke-dasharray: 4 22; opacity: .8; }
+.duct-flow.cloud { stroke: var(--muted); stroke-dasharray: 3 9; animation-duration: 6s; }
+.node rect, .node path.box { fill: var(--panel-a); stroke: var(--panel-edge); stroke-width: 1.5; }
+.node .hdr { fill: var(--accent); }
+.node text { fill: var(--ink); font-size: 14px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+.node .sub { fill: var(--ink-2); font-size: 12px; font-weight: 500; letter-spacing: .02em; text-transform: none; font-family: var(--f-body); }
+.node .hdr-t { fill: var(--accent-ink); font-size: 12px; letter-spacing: .1em; }
+.pkt { fill: var(--accent); stroke: var(--accent-ink); stroke-width: 1; }
+.pkt.c { fill: var(--muted); stroke: none; }
+.ble-wave { fill: none; stroke: var(--flow); stroke-width: 2; opacity: 0; animation: wave 2.4s ease-out infinite; transform-box: fill-box; transform-origin: left center; }
+.sch-note { fill: var(--muted); font-size: 12px; font-family: var(--f-body); }
+.legend-row { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 12px; font-size: 14px; color: var(--ink-2); }
+.legend-row span { display: inline-flex; align-items: center; gap: 8px; }
+.lg-line { width: 30px; height: 0; border-top: 3px solid var(--flow); }
+.lg-line.dash { border-top: 3px dashed var(--muted); }
+.lg-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 1px solid var(--accent-ink); }
+
+/* ---------- Charts (shared) ---------- */
+.legend { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 0; margin: 0 0 8px; font-size: 13px; color: var(--ink-2); }
+.legend li { display: flex; align-items: center; gap: 6px; }
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; flex: none; }
+.sw.s1 { background: var(--s1); } .sw.s2 { background: var(--s2); } .sw.s3 { background: var(--s3); }
+.chart-box { position: relative; background: var(--chart-surface); border: 1px solid var(--hair); border-radius: 4px; overflow-x: auto; }
+.chart-box svg { display: block; width: 100%; min-width: 620px; height: auto; font: 12px var(--f-body); }
+.c-grid { stroke: var(--grid); stroke-width: 1; }
+.c-axis { stroke: var(--axis); stroke-width: 1; }
+.c-tick { fill: var(--chart-muted); font-variant-numeric: tabular-nums; }
+.c-line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.c-line.s1 { stroke: var(--s1); } .c-line.s2 { stroke: var(--s2); } .c-line.s3 { stroke: var(--s3); }
+.c-step { fill: none; stroke-width: 2.5; stroke: var(--s2); stroke-linejoin: miter; }
+.c-dot.s1 { fill: var(--s1); } .c-dot.s2 { fill: var(--s2); } .c-dot.s3 { fill: var(--s3); }
+.c-dot { stroke: var(--chart-surface); stroke-width: 2; }
+.c-end { fill: var(--chart-ink-2); font-weight: 600; }
+.c-band { fill: var(--critical); opacity: .1; }
+.c-band.q { fill: var(--chart-muted); opacity: .12; }
+.c-ann { fill: var(--chart-ink-2); font-size: 12px; font-weight: 600; }
+.c-ann-line { stroke: var(--chart-ink-2); stroke-width: 1; stroke-dasharray: 3 3; }
+.c-x { stroke: var(--chart-ink-2); stroke-width: 1; stroke-dasharray: 3 3; }
+.c-hit { fill: transparent; cursor: crosshair; }
+.c-hover[hidden] { display: none; }
+.draw .c-line, .draw .c-step { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.draw.play .c-line, .draw.play .c-step { animation: draw 2.2s ease-out both; }
+.tip { position: absolute; top: 8px; z-index: 3; pointer-events: none; background: var(--panel-a); color: var(--ink); border: 1px solid var(--panel-edge); border-top: 3px solid var(--accent); border-radius: 4px; padding: 7px 10px; font-size: 13px; box-shadow: 0 4px 14px rgba(0,0,0,.2); min-width: 170px; }
+.tip b { display: block; margin-bottom: 3px; }
+.tip .r { display: flex; align-items: center; gap: 6px; } .tip .r .v { margin-left: auto; padding-left: 12px; font-variant-numeric: tabular-nums; font-weight: 600; }
+.note { font-size: 13px; color: var(--muted); margin-top: 8px; }
+details.tbl { margin-top: 12px; }
+details.tbl summary { cursor: pointer; font: 700 13px var(--f-label); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+details.tbl .tw { max-height: 320px; overflow: auto; margin-top: 8px; }
+details.tbl table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+details.tbl th, details.tbl td { padding: 4px 10px; border-bottom: 1px solid var(--hair); text-align: right; white-space: nowrap; }
+details.tbl th:first-child, details.tbl td:first-child { text-align: left; }
+details.tbl thead th { position: sticky; top: 0; background: var(--panel-b); }
+
+.callout { display: grid; gap: 10px; align-content: start; }
+.bigfig { font: 700 64px/1 var(--f-label); font-variant-numeric: tabular-nums; }
+.bigfig small { font-size: 22px; color: var(--muted); margin-left: 4px; }
+
+/* ---------- Sequence + decoder ---------- */
+.seq-wrap { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+.seq svg { display: block; width: 100%; min-width: 520px; height: auto; font-family: var(--f-label); }
+.lane { stroke: var(--panel-edge); stroke-width: 2; stroke-dasharray: 6 6; }
+.lane-head rect { fill: var(--plenum-b); }
+.lane-head text { fill: var(--accent); font-size: 14px; letter-spacing: .08em; text-transform: uppercase; }
+.msg line { stroke: var(--muted); stroke-width: 1.5; opacity: .35; transition: opacity .3s, stroke .3s; }
+.msg text { fill: var(--muted); font-family: var(--f-mono); font-size: 12px; opacity: .55; transition: opacity .3s, fill .3s; }
+.msg .lbl { font-family: var(--f-label); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+.msg.on line { stroke: var(--accent-deep); stroke-width: 2.5; opacity: 1; }
+.msg.on text { fill: var(--ink); opacity: 1; }
+.msg.done line { opacity: .8; stroke: var(--ink-2); } .msg.done text { opacity: .9; fill: var(--ink-2); }
+.arrowhead { fill: var(--ink-2); }
+.seq-dot { fill: var(--accent); stroke: var(--accent-ink); stroke-width: 1; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.steps li button { all: unset; box-sizing: border-box; display: grid; grid-template-columns: 30px 1fr; gap: 10px; width: 100%; padding: 9px 11px; border-radius: 4px; cursor: pointer; border: 1px solid transparent; color: var(--ink-2); }
+.steps li button:hover { border-color: var(--panel-edge); }
+.steps li button:focus-visible { outline: 3px solid var(--accent); }
+.steps .n { font: 700 18px/1.1 var(--f-label); color: var(--muted); }
+.steps .t { font-size: 14px; line-height: 1.45; } .steps .t b { color: var(--ink); font-family: var(--f-label); letter-spacing: .05em; text-transform: uppercase; font-size: 14px; }
+.steps li.on button { background: var(--panel-a); border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); color: var(--ink); }
+.steps li.on .n { color: var(--accent-deep); }
+.cipher { margin-top: 14px; background: var(--code-bg); color: var(--code-ink); border-radius: 5px; padding: 12px 14px; font: 13px/1.6 var(--f-mono); overflow-x: auto; }
+.cipher .lab { color: var(--code-dim); display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+.cipher .hex { color: #ffd54a; white-space: nowrap; letter-spacing: .04em; }
+
+.decoder { display: grid; gap: 14px; }
+.bytes { display: grid; grid-template-columns: repeat(20, minmax(26px, 1fr)); gap: 4px; min-width: 620px; }
+.byte { font: 600 14px/1 var(--f-mono); text-align: center; padding: 10px 0 8px; border-radius: 4px; background: var(--code-bg); color: var(--code-dim); position: relative; transition: background .25s, color .25s, transform .25s; }
+.byte .i { position: absolute; top: -15px; left: 0; right: 0; font: 10px var(--f-body); color: var(--muted); }
+.byte.off { background: #6b5200; color: #ffe08a; }
+.byte.rd { color: var(--code-ink); }
+.byte.cur { background: var(--accent); color: var(--accent-ink); transform: translateY(-4px); }
+.byte.used { color: #8ef0a6; }
+.byte.ck { outline: 1px dashed var(--code-dim); }
+.math { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.mstep { background: var(--chart-surface); border: 1px solid var(--hair); border-radius: 4px; padding: 10px 12px; min-width: 0; }
+.mstep .k { font: 700 11px var(--f-label); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 4px; }
+.mstep .v { font: 600 18px/1.25 var(--f-mono); overflow-wrap: anywhere; }
+.mstep .v.big { font: 700 26px/1.1 var(--f-label); }
+.dec-ctl { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.btn { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font: 700 13px/1 var(--f-label); letter-spacing: .1em; text-transform: uppercase; background: var(--accent); color: var(--accent-ink); padding: 9px 13px; border-radius: 4px; box-shadow: 0 2px 0 var(--accent-deep); }
+.btn:active { transform: translateY(1px); box-shadow: 0 1px 0 var(--accent-deep); }
+.btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.btn.ghost { background: var(--panel-a); color: var(--ink); box-shadow: 0 2px 0 var(--panel-edge); border: 1px solid var(--panel-edge); }
+.spark { height: 90px; }
+.spark svg { width: 100%; height: 90px; display: block; }
+
+/* ---------- Radial ---------- */
+.radial-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 24px; align-items: center; }
+.radial { position: relative; max-width: 620px; width: 100%; aspect-ratio: 1; margin: 0 auto; }
+.radial canvas { width: 100%; height: 100%; display: block; }
+.seg-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg-tabs button { all: unset; cursor: pointer; font: 700 13px/1 var(--f-label); letter-spacing: .08em; text-transform: uppercase; padding: 8px 11px; border-radius: 3px; border: 1px solid var(--panel-edge); color: var(--ink-2); }
+.seg-tabs button[aria-pressed="true"] { background: var(--ink); color: var(--panel-a); border-color: var(--ink); }
+.seg-tabs button:focus-visible { outline: 3px solid var(--accent); }
+.scale { height: 14px; border-radius: 7px; border: 1px solid var(--hair); }
+.scale-l { display: flex; justify-content: space-between; font: 12px var(--f-body); color: var(--muted); font-variant-numeric: tabular-nums; margin-top: 4px; }
+.radial-read { font: 600 15px/1.4 var(--f-body); color: var(--ink-2); min-height: 3em; }
+.radial-read b { font: 700 28px/1.1 var(--f-label); color: var(--ink); display: block; }
+
+/* ---------- Findings ---------- */
+.finds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.find { background: var(--panel-a); border: 1px solid var(--panel-edge); border-radius: 5px; padding: 14px 16px 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.find .when { font: 700 13px var(--f-label); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.find h3 { font: 700 21px/1.15 var(--f-label); }
+.find p { font-size: 15px; color: var(--ink-2); }
+.find .sev { display: inline-flex; align-items: center; gap: 6px; font: 700 12px var(--f-label); letter-spacing: .08em; text-transform: uppercase; }
+.sev .led { width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(0,0,0,.15); }
+.sev.crit .led { background: var(--critical); animation: blink 1.2s ease-in-out infinite; }
+.sev.warn .led { background: var(--warning); }
+.sev.info .led { background: var(--s1); }
+
+/* ---------- Screens ---------- */
+.screens { display: grid; gap: 14px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.tabs button { all: unset; cursor: pointer; position: relative; overflow: hidden; font: 700 13px/1 var(--f-label); letter-spacing: .08em; text-transform: uppercase; padding: 9px 12px; border-radius: 3px; border: 1px solid var(--panel-edge); color: var(--ink-2); background: var(--panel-a); }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--panel-a); border-color: var(--ink); }
+.tabs button .prog { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: var(--accent); }
+.tabs button:focus-visible { outline: 3px solid var(--accent); }
+.browser { border-radius: 8px; overflow: hidden; border: 1px solid var(--panel-edge); box-shadow: 0 10px 30px rgba(0,0,0,.25); background: var(--plenum-b); }
+.browser-bar { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: linear-gradient(180deg, var(--plenum-a), var(--plenum-b)); }
+.dots { display: flex; gap: 6px; } .dots i { width: 11px; height: 11px; border-radius: 50%; background: #e0605a; } .dots i:nth-child(2) { background: #e2b33b; } .dots i:nth-child(3) { background: #5cbf4e; }
+.url { flex: 1; min-width: 0; font: 12px var(--f-mono); color: #c9d0d5; background: rgba(0,0,0,.3); padding: 5px 10px; border-radius: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.shot { position: relative; aspect-ratio: 1360 / 860; background: var(--chart-surface); max-width: 100%; }
+.shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: opacity .6s ease; opacity: 0; }
+.shot img.show { opacity: 1; }
+.shot .cap2 { position: absolute; left: 12px; bottom: 12px; right: 12px; z-index: 2; background: color-mix(in srgb, var(--plenum-b) 88%, transparent); color: #eef1f3; border-left: 4px solid var(--accent); padding: 8px 12px; font-size: 14px; border-radius: 3px; max-width: 64ch; }
+.more-shots { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, .62fr); gap: 16px; align-items: start; }
+.tall { position: relative; height: 430px; border-radius: 6px; overflow: hidden; border: 1px solid var(--panel-edge); background: var(--plenum-b); }
+.tall img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; animation: scrollshot 26s ease-in-out infinite alternate; }
+.phone { position: relative; border-radius: 26px; padding: 10px; background: #0d0f11; box-shadow: 0 10px 26px rgba(0,0,0,.35), inset 0 0 0 2px #2f363c; max-width: 220px; justify-self: center; width: 100%; }
+.phone .scr { border-radius: 18px; overflow: hidden; aspect-ratio: 390 / 844; }
+.phone img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.phone::before { content: ""; position: absolute; top: 16px; left: 50%; width: 60px; height: 6px; border-radius: 3px; background: #0d0f11; transform: translateX(-50%); z-index: 2; }
+.fig-cap { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.detail { display: grid; gap: 10px; }
+.detail img { border-radius: 6px; border: 1px solid var(--panel-edge); display: block; width: 100%; }
+
+/* ---------- Under the hood ---------- */
+.stack { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.part { border: 1px solid var(--panel-edge); border-radius: 5px; padding: 12px 14px; background: var(--panel-a); min-width: 0; }
+.part .label { display: block; margin-bottom: 4px; }
+.part b { font: 700 18px/1.2 var(--f-label); display: block; }
+.part p { font-size: 14px; color: var(--ink-2); margin-top: 4px; }
+.bars { display: grid; gap: 7px; }
+.bar { display: grid; grid-template-columns: 110px minmax(0, 1fr) 48px; gap: 10px; align-items: center; font-size: 13px; }
+.bar .f { font-family: var(--f-mono); color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar .track { height: 14px; background: var(--chart-surface); border: 1px solid var(--hair); border-radius: 0 4px 4px 0; overflow: hidden; }
+.bar .fill { height: 100%; width: var(--w); background: var(--s1); border-radius: 0 4px 4px 0; transform-origin: left; }
+.bars.play .fill { animation: grow 1.4s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 70ms); }
+.bar .n { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+pre.code { margin: 0; background: var(--code-bg); color: var(--code-ink); border-radius: 5px; padding: 14px 16px; font: 13px/1.6 var(--f-mono); overflow-x: auto; }
+pre.code .c { color: var(--code-dim); } pre.code .k { color: #ffd54a; } pre.code .s { color: #8ef0a6; }
+
+/* ---------- Gauges (hero strip) ---------- */
+.gstrip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+.gcard { background: var(--panel-a); border: 1px solid var(--panel-edge); border-radius: 6px; padding: 10px 10px 8px; text-align: center; min-width: 0; }
+.gcard svg { width: 100%; max-width: 170px; display: block; margin: 0 auto; }
+.gcard .nm { font: 700 15px/1.2 var(--f-label); display: flex; gap: 6px; align-items: center; justify-content: center; }
+.gcard .lcd { display: inline-block; margin-top: 4px; font: 700 22px/1 var(--f-label); font-variant-numeric: tabular-nums; background: var(--lcd-bg); color: var(--lcd-ink); padding: 5px 9px; border-radius: 4px; box-shadow: inset 0 2px 5px rgba(0,0,0,.35); }
+.g-bezel { fill: var(--gauge-bezel); } .g-face { fill: var(--gauge-face); stroke: rgba(0,0,0,.25); }
+.g-zone { fill: none; stroke-width: 7; } .g-zone.c { stroke: var(--cold); } .g-zone.m { stroke: var(--good); } .g-zone.h { stroke: var(--hot); }
+.g-tick { stroke: var(--ink-2); stroke-width: 1; } .g-tick.M { stroke: var(--ink); stroke-width: 2; }
+.g-lab { fill: var(--ink); font: 700 12px var(--f-label); text-anchor: middle; }
+.g-needle { transform-origin: 100px 110px; transform: rotate(var(--a)); animation: sweep 2s cubic-bezier(.25,1.5,.45,1) both; }
+.g-needle path { fill: var(--needle); transform-origin: 100px 110px; animation: jitter 5s ease-in-out 2s infinite; }
+.g-cap { fill: #3b4248; stroke: #9aa3ab; stroke-width: 2; }
+
+/* ---------- Ticket ---------- */
+.ticket { margin-block: 26px 34px; background: var(--ticket); color: var(--ticket-ink); border: 1px dashed var(--ticket-edge); border-radius: 4px; padding: 16px 18px; }
+.ticket-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; align-items: center; border-bottom: 2px solid var(--ticket-ink); padding-bottom: 8px; margin-bottom: 10px; }
+.ticket-head .stencil { font-size: 20px; }
+.ticket dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px 20px; margin: 0; }
+.ticket dt { font: 700 11px/1.2 var(--f-label); letter-spacing: .1em; text-transform: uppercase; color: var(--ticket-label); }
+.ticket dd { margin: 2px 0 0; font: 13px var(--f-mono); overflow-wrap: anywhere; }
+.stamp { font: 400 18px var(--f-display); letter-spacing: .08em; color: var(--critical); border: 3px solid var(--critical); padding: 4px 10px; border-radius: 4px; transform: rotate(-6deg); opacity: .85; text-transform: uppercase; animation: stamp 1s cubic-bezier(.2,1.6,.4,1) .4s both; }
+
+/* ---------- Motion ---------- */
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes flow { to { stroke-dashoffset: -200; } }
+@keyframes flow2 { to { stroke-dashoffset: -24; } }
+@keyframes hazard { to { background-position: 39.6px 0; } }
+@keyframes wave { 0% { opacity: .9; transform: scale(.4); } 100% { opacity: 0; transform: scale(1.6); } }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes sweep { from { transform: rotate(-120deg); } }
+@keyframes jitter { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(1deg); } 60% { transform: rotate(-.8deg); } }
+@keyframes blink { 50% { opacity: .35; } }
+@keyframes grow { from { transform: scaleX(0); } }
+@keyframes scrollshot { 0%, 8% { object-position: 50% 0; } 92%, 100% { object-position: 50% 100%; } }
+@keyframes stamp { from { transform: rotate(-6deg) scale(2.2); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 980px) {
+  .hero, .two, .seq-wrap, .radial-wrap { grid-template-columns: minmax(0, 1fr); }
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .finds, .stack { grid-template-columns: minmax(0, 1fr); }
+  .more-shots { grid-template-columns: minmax(0, 1fr); }
+  .math { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .panel { padding: 20px 16px 24px; }
+  .brand-sub { display: none; }
+  .bar { grid-template-columns: 86px minmax(0, 1fr) 40px; }
+  .tall { height: 320px; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="fan" viewBox="0 0 64 64">
+      <g class="blades">
+        <path d="M32 32 C26 22 26 10 32 5 C40 9 40 22 32 32Z"/>
+        <path d="M32 32 C26 22 26 10 32 5 C40 9 40 22 32 32Z" transform="rotate(72 32 32)"/>
+        <path d="M32 32 C26 22 26 10 32 5 C40 9 40 22 32 32Z" transform="rotate(144 32 32)"/>
+        <path d="M32 32 C26 22 26 10 32 5 C40 9 40 22 32 32Z" transform="rotate(216 32 32)"/>
+        <path d="M32 32 C26 22 26 10 32 5 C40 9 40 22 32 32Z" transform="rotate(288 32 32)"/>
+      </g>
+      <circle cx="32" cy="32" r="5" class="hub"/>
+    </symbol>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0 0 L10 5 L0 10 Z"/></marker>
+  </defs>
+</svg>
+
+<header class="plenum">
+  <div class="gutter"><div class="wrap plenum-bar">
+    <a class="brand" href="#top" id="top">
+      <span class="fan-housing"><svg class="fan spin" viewBox="0 0 64 64" aria-hidden="true"><use href="#fan"/></svg></span>
+      <span><span class="brand-title">Thermal Survey</span><span class="brand-sub">Field manual · how the home HVAC logger works</span></span>
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#schematic">Schematic</a><a href="#cloud">Why Bluetooth</a><a href="#handshake">Handshake</a><a href="#decode">Decoder</a><a href="#house">20 days</a><a href="#screens">Screens</a><a href="#hood">Under the hood</a>
+    </nav>
+  </div></div>
+  <svg class="airflow" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12 H1200"/><path d="M0 22 H1200" class="d2"/><path d="M0 32 H1200" class="d3"/></svg>
+</header>
+<div class="hazard" aria-hidden="true"></div>
+
+<div class="gutter"><div class="wrap">
+
+<aside class="credit-row" aria-label="About this page">
+  <div class="burst">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Jim’s home bluetooth/wifi thermometers">
+      <polygon class="star" id="burst-star" points="100,4 196,100 100,196 4,100"/>
+      <circle class="ring" cx="100" cy="100" r="66"/>
+      <g class="txt"><text x="100" y="82">Jim’s home</text><text x="100" y="105">bluetooth/wifi</text><text x="100" y="128">thermometers</text></g>
+    </svg>
+  </div>
+  <p class="credit"><b>Vibe-coded by JimC in his personal Claude account.</b></p>
+</aside>
+
+<section class="hero">
+  <div>
+    <span class="label">Service bulletin · Home HVAC · 3 zones</span>
+    <h1 style="margin-top:8px">Every minute, <span class="yel">every room</span>, straight off the sensor.</h1>
+    <p class="lede">Thermal Survey is a small Go web app that pulls per-minute temperature and humidity history out of three Govee H5179 thermometers over Bluetooth, stores it in MySQL and draws it as charts. It runs on a laptop, needs no cloud and recorded the day the heat pump died.</p>
+    <div class="tagrow"><span class="tag y">Go 1.27</span><span class="tag">MySQL 8.4</span><span class="tag">Bluetooth LE</span><span class="tag">AES-128 + RC4</span><span class="tag">Server-rendered SVG</span><span class="tag">launchd</span></div>
+    <div class="gstrip" id="gstrip" aria-label="Latest hourly readings"></div>
+  </div>
+  <div>
+    <div class="machine" id="machine">
+      <canvas id="air" aria-label="Animated air handler: return air passes the fan and heat-pump coil and leaves warm" role="img"></canvas>
+      <span class="cap">Air handler · return air in, supply air out</span>
+    </div>
+  </div>
+</section>
+
+<section class="stats" aria-label="Key figures">
+  <div class="stat"><span class="v" data-count="501048">501,048</span><span class="k">readings cached</span></div>
+  <div class="stat"><span class="v"><span data-count="1">1</span> min</span><span class="k">resolution</span></div>
+  <div class="stat"><span class="v"><span data-count="20">20</span> days</span><span class="k">stored on each sensor</span></div>
+  <div class="stat"><span class="v">≈<span data-count="1">1</span> s</span><span class="k">per 200 minutes downloaded</span></div>
+  <div class="stat"><span class="v" data-count="2947">2,947</span><span class="k">lines of Go, CSS &amp; JS</span></div>
+</section>
+
+<main>
+
+<!-- ============ SCHEMATIC ============ -->
+<section class="panel" id="schematic">
+  <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+  <div class="panel-head"><span class="plate">Sheet 1</span><h2>System schematic</h2></div>
+  <p class="intro">Readings take three routes into one MySQL cache. The main one is Bluetooth: every three hours the laptop connects to each sensor and downloads every minute it hasn't seen yet. The Govee cloud fills in a rough "right now" between syncs, and CSV exports from the Govee app back-fill anything older than the sensors' 20-day memory.</p>
+  <div class="scroll-x">
+  <svg class="schematic" viewBox="0 0 1180 560" role="img" aria-label="Data flows from three thermometers over Bluetooth into the Go app on the laptop, then into MySQL and out to the browser. A dashed cloud route and a CSV import route also feed MySQL.">
+    <!-- duct routes, reused by the visible ducts and the moving packets -->
+    <defs>
+      <path id="p-s1" d="M150 130 C 260 130, 290 250, 400 270"/>
+      <path id="p-s2" d="M150 280 C 260 280, 300 280, 400 280"/>
+      <path id="p-s3" d="M150 430 C 260 430, 290 310, 400 290"/>
+      <path id="p-db" d="M640 280 L 760 280"/>
+      <path id="p-web" d="M900 280 L 1010 280"/>
+      <path id="p-cloud" d="M110 95 C 140 40, 300 30, 470 40 C 560 46, 600 70, 600 170"/>
+      <path id="p-csv" d="M520 520 C 620 520, 700 470, 720 360 C 728 330, 740 300, 760 292"/>
+    </defs>
+    <g class="ducts">
+      <use href="#p-s1" class="duct-outer"/><use href="#p-s1" class="duct-inner"/><use href="#p-s1" class="duct-flow"/>
+      <use href="#p-s2" class="duct-outer"/><use href="#p-s2" class="duct-inner"/><use href="#p-s2" class="duct-flow"/>
+      <use href="#p-s3" class="duct-outer"/><use href="#p-s3" class="duct-inner"/><use href="#p-s3" class="duct-flow"/>
+      <use href="#p-db" class="duct-outer"/><use href="#p-db" class="duct-inner"/><use href="#p-db" class="duct-flow"/>
+      <use href="#p-web" class="duct-outer"/><use href="#p-web" class="duct-inner"/><use href="#p-web" class="duct-flow"/>
+      <use href="#p-cloud" class="duct-flow cloud" style="stroke-width:3"/>
+      <use href="#p-csv" class="duct-outer" style="stroke-width:12"/><use href="#p-csv" class="duct-inner" style="stroke-width:7"/><use href="#p-csv" class="duct-flow slow"/>
+    </g>
+
+    <!-- sensors -->
+    <g class="node" id="sensors">
+      <g transform="translate(40,95)"><rect width="110" height="70" rx="8"/><rect class="hdr" width="110" height="20" rx="8"/><rect class="hdr" y="10" width="110" height="10"/><text class="hdr-t" x="55" y="14" text-anchor="middle">Zone 01</text><text x="55" y="42" text-anchor="middle">Boys' Room</text><text class="sub" x="55" y="60" text-anchor="middle">GV5179_5E6F</text></g>
+      <g transform="translate(40,245)"><rect width="110" height="70" rx="8"/><rect class="hdr" width="110" height="20" rx="8"/><rect class="hdr" y="10" width="110" height="10"/><text class="hdr-t" x="55" y="14" text-anchor="middle">Zone 02</text><text x="55" y="42" text-anchor="middle">Downstairs</text><text class="sub" x="55" y="60" text-anchor="middle">GV5179_1A2B</text></g>
+      <g transform="translate(40,395)"><rect width="110" height="70" rx="8"/><rect class="hdr" width="110" height="20" rx="8"/><rect class="hdr" y="10" width="110" height="10"/><text class="hdr-t" x="55" y="14" text-anchor="middle">Zone 03</text><text x="55" y="42" text-anchor="middle">Master Bed</text><text class="sub" x="55" y="60" text-anchor="middle">GV5179_3C4D</text></g>
+      <g class="waves">
+        <path class="ble-wave" d="M158 118 a14 14 0 0 1 0 24"/><path class="ble-wave" style="animation-delay:.8s" d="M158 118 a14 14 0 0 1 0 24"/><path class="ble-wave" style="animation-delay:1.6s" d="M158 118 a14 14 0 0 1 0 24"/>
+        <path class="ble-wave" style="animation-delay:.3s" d="M158 268 a14 14 0 0 1 0 24"/><path class="ble-wave" style="animation-delay:1.1s" d="M158 268 a14 14 0 0 1 0 24"/><path class="ble-wave" style="animation-delay:1.9s" d="M158 268 a14 14 0 0 1 0 24"/>
+        <path class="ble-wave" style="animation-delay:.6s" d="M158 418 a14 14 0 0 1 0 24"/><path class="ble-wave" style="animation-delay:1.4s" d="M158 418 a14 14 0 0 1 0 24"/><path class="ble-wave" style="animation-delay:2.2s" d="M158 418 a14 14 0 0 1 0 24"/>
+      </g>
+    </g>
+
+    <!-- laptop / go app -->
+    <g class="node" transform="translate(400,170)">
+      <rect width="240" height="230" rx="8"/>
+      <rect class="hdr" width="240" height="26" rx="8"/><rect class="hdr" y="14" width="240" height="12"/>
+      <text class="hdr-t" x="120" y="18" text-anchor="middle">Laptop · govee-hvac (Go)</text>
+      <g transform="translate(14,38)"><rect width="212" height="40" rx="4"/><text x="10" y="18">Bluetooth collector</text><text class="sub" x="10" y="33">every 3 h · ble.go</text></g>
+      <g transform="translate(14,84)"><rect width="212" height="40" rx="4"/><text x="10" y="18">Cloud poller</text><text class="sub" x="10" y="33">every 15 min · poller.go</text></g>
+      <g transform="translate(14,130)"><rect width="212" height="40" rx="4"/><text x="10" y="18">CSV importer</text><text class="sub" x="10" y="33">Govee app exports · importer.go</text></g>
+      <g transform="translate(14,176)"><rect width="212" height="40" rx="4"/><text x="10" y="18">Web server :8179</text><text class="sub" x="10" y="33">html/template + SVG · web.go</text></g>
+      <g transform="translate(196,6)"><svg width="16" height="16" viewBox="0 0 64 64"><g class="spin"><use href="#fan"/></g></svg></g>
+    </g>
+
+    <!-- mysql -->
+    <g class="node" transform="translate(760,205)">
+      <path class="box" d="M0 20 C0 -6 140 -6 140 20 L140 130 C140 156 0 156 0 130 Z"/>
+      <path d="M0 20 C0 46 140 46 140 20" fill="none" stroke="var(--panel-edge)" stroke-width="1.5"/>
+      <path d="M0 60 C0 86 140 86 140 60" fill="none" stroke="var(--panel-edge)" stroke-width="1" opacity=".6"/>
+      <path d="M0 100 C0 126 140 126 140 100" fill="none" stroke="var(--panel-edge)" stroke-width="1" opacity=".6"/>
+      <text x="70" y="68" text-anchor="middle">MySQL 8.4</text>
+      <text class="sub" x="70" y="88" text-anchor="middle">govee_thermo</text>
+      <text class="sub" x="70" y="106" text-anchor="middle" id="sch-rows">501,048 rows</text>
+    </g>
+
+    <!-- browser -->
+    <g class="node" transform="translate(1010,215)">
+      <rect width="150" height="130" rx="8"/>
+      <rect width="150" height="22" rx="8" fill="var(--plenum-b)"/><rect y="12" width="150" height="10" fill="var(--plenum-b)"/>
+      <circle cx="14" cy="11" r="4" fill="#e0605a"/><circle cx="27" cy="11" r="4" fill="#e2b33b"/><circle cx="40" cy="11" r="4" fill="#5cbf4e"/>
+      <polyline points="14,110 34,92 50,98 70,70 90,82 110,58 136,64" fill="none" stroke="var(--s1)" stroke-width="2.5"/>
+      <polyline points="14,104 34,100 50,88 70,90 90,72 110,80 136,74" fill="none" stroke="var(--s2)" stroke-width="2.5"/>
+      <text x="75" y="44" text-anchor="middle">Dashboard</text>
+    </g>
+
+    <!-- cloud -->
+    <g class="node" transform="translate(470,10)">
+      <path class="box" d="M20 60 C0 60 0 30 24 30 C26 8 60 4 70 22 C82 6 116 12 112 36 C134 36 134 60 114 60 Z"/>
+      <text x="66" y="50" text-anchor="middle" style="font-size:12px">Govee cloud</text>
+    </g>
+    <text class="sch-note" x="190" y="26">Wi-Fi upload, value refreshes about hourly</text>
+    <text class="sch-note" x="612" y="120">REST poll · 15 min</text>
+
+    <!-- csv -->
+    <g class="node" transform="translate(370,488)">
+      <rect width="150" height="58" rx="6"/>
+      <path d="M128 0 L150 22 L128 22 Z" fill="var(--panel-edge)"/>
+      <text x="14" y="25">Govee app CSV</text><text class="sub" x="14" y="44">50,000-minute files</text>
+    </g>
+
+    <text class="sch-note" x="232" y="206" transform="rotate(25 232 206)">encrypted BLE</text>
+    <text class="sch-note" x="660" y="268">INSERT IGNORE</text>
+    <text class="sch-note" x="918" y="268">GET /?range=7d</text>
+
+    <!-- moving packets -->
+    <g aria-hidden="true">
+      <circle r="6" class="pkt"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#p-s1"/></animateMotion></circle>
+      <circle r="6" class="pkt"><animateMotion dur="2.2s" begin="1.1s" repeatCount="indefinite"><mpath href="#p-s1"/></animateMotion></circle>
+      <circle r="6" class="pkt"><animateMotion dur="1.8s" begin=".4s" repeatCount="indefinite"><mpath href="#p-s2"/></animateMotion></circle>
+      <circle r="6" class="pkt"><animateMotion dur="1.8s" begin="1.3s" repeatCount="indefinite"><mpath href="#p-s2"/></animateMotion></circle>
+      <circle r="6" class="pkt"><animateMotion dur="2.4s" begin=".7s" repeatCount="indefinite"><mpath href="#p-s3"/></animateMotion></circle>
+      <circle r="6" class="pkt"><animateMotion dur="2.4s" begin="1.9s" repeatCount="indefinite"><mpath href="#p-s3"/></animateMotion></circle>
+      <circle r="6" class="pkt"><animateMotion dur="1s" repeatCount="indefinite"><mpath href="#p-db"/></animateMotion></circle>
+      <circle r="6" class="pkt"><animateMotion dur="1s" begin=".5s" repeatCount="indefinite"><mpath href="#p-db"/></animateMotion></circle>
+      <circle r="6" class="pkt"><animateMotion dur="1.3s" begin=".2s" repeatCount="indefinite"><mpath href="#p-web"/></animateMotion></circle>
+      <circle r="5" class="pkt c"><animateMotion dur="9s" repeatCount="indefinite"><mpath href="#p-cloud"/></animateMotion></circle>
+      <circle r="5" class="pkt"><animateMotion dur="5s" begin="1s" repeatCount="indefinite"><mpath href="#p-csv"/></animateMotion></circle>
+    </g>
+  </svg>
+  </div>
+  <div class="legend-row"><span><i class="lg-line"></i>Per-minute history over Bluetooth</span><span><i class="lg-line dash"></i>Cloud snapshot, often an hour old</span><span><i class="lg-dot"></i>A batch of readings in transit</span></div>
+</section>
+
+<!-- ============ CLOUD VS SENSOR ============ -->
+<section class="panel" id="cloud">
+  <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+  <div class="panel-head"><span class="plate">Sheet 2</span><h2>Why not just use the Govee API?</h2></div>
+  <p class="intro">The first version polled Govee's official cloud API every two minutes. Then the data said otherwise: for 62 minutes the API returned the same 70.55 °F while the sensor itself logged the room moving through seven different temperatures. The cloud copy goes stale. The sensor's own log doesn't.</p>
+  <div class="two">
+    <div>
+      <ul class="legend"><li><span class="sw s1"></span>Sensor's own minute log (Bluetooth / export)</li><li><span class="sw s2"></span>Govee cloud API, polled every 2 min</li></ul>
+      <div class="chart-box" id="ch-cloud"></div>
+      <p class="note">Downstairs, Nov 20, 4:10–5:30 PM Pacific. Both series are real readings.</p>
+    </div>
+    <div class="callout">
+      <span class="label">Cloud value unchanged for</span>
+      <span class="bigfig"><span data-count="62">62</span><small>min</small></span>
+      <p>Meanwhile the sensor saw <b>7</b> distinct temperatures and <b>15</b> humidity values. The cloud value finally moved one minute after someone synced the sensor in the Govee phone app.</p>
+      <span class="label" style="margin-top:8px">What the sensor keeps</span>
+      <span class="bigfig"><span data-count="28800">28,800</span><small>readings</small></span>
+      <p>That's 20 days at one per minute. Any device that can speak its Bluetooth protocol can download all of it, so the laptop only needs to be home once every 20 days to miss nothing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HANDSHAKE ============ -->
+<section class="panel" id="handshake">
+  <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+  <div class="panel-head"><span class="plate">Sheet 3</span><h2>The Bluetooth handshake</h2></div>
+  <p class="intro">Govee doesn't document this. The protocol comes from the open-source GoveeBTTempLogger project and was verified byte for byte against these sensors. Each sync replays the exchange below, the same one the Govee app performs when you tap "Get All Data".</p>
+  <div class="seq-wrap">
+    <div class="seq scroll-x">
+      <svg id="seq" viewBox="0 0 560 520" role="img" aria-label="Sequence of messages between the laptop and the sensor: connect, two encrypted handshake steps, a history request, a stream of data packets and a done message.">
+        <g class="lane-head"><rect x="30" y="10" width="170" height="34" rx="4"/><text x="115" y="32" text-anchor="middle">Laptop · Go app</text></g>
+        <g class="lane-head"><rect x="360" y="10" width="170" height="34" rx="4"/><text x="445" y="32" text-anchor="middle">H5179 sensor</text></g>
+        <line class="lane" x1="115" y1="44" x2="115" y2="510"/><line class="lane" x1="445" y1="44" x2="445" y2="510"/>
+      </svg>
+    </div>
+    <div>
+      <ol class="steps" id="steps"></ol>
+      <div class="cipher" aria-live="off">
+        <span class="lab">Sensor's reply to the history request, as captured</span>
+        <span class="hex" id="cipher-hex">e2c854bdc14544a46bae764894084c5c24a83cd9</span>
+        <span class="lab" id="cipher-lab" style="margin-top:6px">Encrypted on the air · decrypting with the session key…</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DECODER ============ -->
+<section class="panel" id="decode">
+  <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+  <div class="panel-head"><span class="plate">Sheet 4</span><h2>Decoding a packet, live</h2></div>
+  <p class="intro">Each 20-byte notification carries a two-byte countdown and six readings packed into three bytes apiece. Below, the decoder works through ten real packets captured from the Downstairs sensor on Nov 20, one reading at a time.</p>
+  <div class="decoder">
+    <div class="dec-ctl">
+      <button class="btn" id="dec-play" type="button" aria-pressed="true">Pause</button>
+      <button class="btn ghost" id="dec-next" type="button">Next reading</button>
+      <span class="label" id="dec-pk">Packet 1 of 10</span>
+    </div>
+    <div class="scroll-x" style="padding-top:18px"><div class="bytes" id="bytes"></div></div>
+    <div class="math">
+      <div class="mstep"><span class="k">Three bytes, big-endian</span><span class="v" id="m-hex">0x0355B1</span></div>
+      <div class="mstep"><span class="k">As one number</span><span class="v" id="m-n">218545</span></div>
+      <div class="mstep"><span class="k">⌊n ÷ 1000⌋ ÷ 10 · n mod 1000 ÷ 10</span><span class="v" id="m-split">21.8 °C · 54.5 %</span></div>
+      <div class="mstep"><span class="k">Stored (with −0.5 °F calibration)</span><span class="v big" id="m-out">70.7 °F</span></div>
+    </div>
+    <div class="two">
+      <div class="mstep"><span class="k">Timestamp</span><span class="v" id="m-time">request time − 200 min = 4:33 PM</span></div>
+      <div class="mstep spark"><span class="k">Readings decoded so far (°F)</span><div id="spark"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 20 DAYS ============ -->
+<section class="panel" id="house">
+  <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+  <div class="panel-head"><span class="plate">Sheet 5</span><h2>Twenty days in the house</h2></div>
+  <p class="intro">Everything the sensors remembered on the day this page was built, averaged by the hour. The nightly setback, the 5 AM warm-up and one very bad Tuesday are all visible.</p>
+  <ul class="legend" id="lg-house"></ul>
+  <div class="chart-box" id="ch-temp"></div>
+  <p class="note">Temperature, hourly averages, Pacific time. Shaded: heat pump down, Nov 16 7:37 PM to Nov 17 3:57 PM.</p>
+  <div style="height:14px"></div>
+  <ul class="legend" id="lg-hum"></ul>
+  <div class="chart-box" id="ch-hum"></div>
+  <p class="note">Relative humidity, hourly averages. A separate chart, not a second axis.</p>
+  <details class="tbl"><summary>Daily summary table</summary><div class="tw" id="tbl"></div></details>
+
+  <div style="height:26px"></div>
+  <div class="radial-wrap">
+    <div class="radial"><canvas id="radial" role="img" aria-label="Radial heat map: each ring is a day, each wedge an hour, colored from cool blue to warm red"></canvas></div>
+    <div class="callout">
+      <span class="label">The thermostat's fingerprint</span>
+      <h3 class="stencil" style="font-size:24px">One ring per day, one wedge per hour</h3>
+      <p style="font-size:15px;color:var(--ink-2)">Midnight is at the top and time runs clockwise. The oldest day is in the middle. Blue is cool, red is warm. The cool wedge before dawn is the overnight setback, and the pale ring near the outside is Nov 17.</p>
+      <div class="seg-tabs" id="rad-tabs" role="group" aria-label="Room"></div>
+      <div><div class="scale" id="rad-scale"></div><div class="scale-l"><span>65 °F</span><span>70 °F</span><span>75 °F</span></div></div>
+      <div class="radial-read" id="rad-read"><b>Hover a wedge</b>to read the hour.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINDINGS ============ -->
+<section class="panel" id="findings">
+  <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+  <div class="panel-head"><span class="plate">Sheet 6</span><h2>What the data found</h2></div>
+  <div class="finds">
+    <article class="find">
+      <span class="when">Tue Nov 17</span>
+      <span class="sev crit"><span class="led"></span>✕ Equipment failure</span>
+      <h3>The heat pump broke</h3>
+      <p>The last heating cycle ran at 7:37 PM the night before. No room got its morning warm-up; the Master Bedroom sank to 66.4 °F by 10 AM. Heat came back at 3:57 PM. It's the one day in the record with no morning warm-up anywhere in the house.</p>
+    </article>
+    <article class="find">
+      <span class="when">Nov 4 – Nov 16</span>
+      <span class="sev warn"><span class="led"></span>! Pattern</span>
+      <h3>A 4:00 AM humidity jump</h3>
+      <p>Downstairs humidity leapt about 12 points at exactly 4:00 AM most nights, and the bedrooms followed an hour later as the warm-up began. It never happened before Nov 4 and stopped the day the heat pump failed.</p>
+    </article>
+    <article class="find">
+      <span class="when">Wed Nov 11</span>
+      <span class="sev info"><span class="led"></span>i Observation</span>
+      <h3>Coldest night: 64.9 °F</h3>
+      <p>All three rooms dipped together, and the Master Bedroom bottomed out at 3:09 AM. It's the coolest room overnight on almost every night of the record.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ============ SCREENS ============ -->
+<section class="panel" id="screens">
+  <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+  <div class="panel-head"><span class="plate">Sheet 7</span><h2>The app itself</h2></div>
+  <p class="intro">Every page is rendered on the server: Go builds the charts as SVG, and the only JavaScript in the app is the hover readout. Light and dark modes follow the system setting.</p>
+  <div class="screens">
+    <div class="tabs" role="tablist" id="shot-tabs"></div>
+    <div class="browser">
+      <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url" id="shot-url">localhost:8179/?range=7d</span></div>
+      <div class="shot" id="shot-stage"></div>
+    </div>
+    <div class="more-shots">
+      <div><div class="tall"><img src="shots/dashboard-full.jpg" alt="The whole dashboard, scrolling from gauges to charts to the service ticket"></div><p class="fig-cap">Full dashboard, top to bottom (dark mode).</p></div>
+      <div class="detail">
+        <img src="shots/gauges.jpg" alt="Three zone cards with manifold-style dial gauges, digital readouts and humidity tubes">
+        <p class="fig-cap">Zone cards: the dial needles sweep in on load.</p>
+        <img src="shots/ticket.jpg" alt="Service ticket footer showing the Bluetooth sync log and next sync time">
+        <p class="fig-cap">The service ticket logs each Bluetooth sync.</p>
+      </div>
+      <div><div class="phone"><div class="scr"><img src="shots/phone.jpg" alt="The dashboard on a phone"></div></div><p class="fig-cap" style="text-align:center">Phone width.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ UNDER THE HOOD ============ -->
+<section class="panel" id="hood">
+  <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+  <div class="panel-head"><span class="plate">Sheet 8</span><h2>Under the hood</h2></div>
+  <div class="stack">
+    <div class="part"><span class="label">Language</span><b>Go 1.27, standard library</b><p>net/http routing, html/template pages, embedded templates and static files. One binary.</p></div>
+    <div class="part"><span class="label">Charts</span><b>Hand-built SVG</b><p>No chart library. Nice-number axes, calendar-aligned ticks, gap detection and collision-free end labels, all in chart.go.</p></div>
+    <div class="part"><span class="label">Storage</span><b>MySQL 8.4</b><p>One row per sensor per minute; time-bucketed averages in SQL keep every chart near 400 points.</p></div>
+    <div class="part"><span class="label">Radio</span><b>tinygo.org/x/bluetooth</b><p>CoreBluetooth on macOS. Remembers each sensor's address so later syncs skip the scan.</p></div>
+    <div class="part"><span class="label">Crypto</span><b>AES-128-ECB + RC4</b><p>Per-connection session key from the handshake. Unit tests decrypt packets captured off the real sensor.</p></div>
+    <div class="part"><span class="label">Uptime</span><b>launchd login agent</b><p>Starts at login, restarts on exit, waits for MySQL. An embedded Info.plist earns macOS Bluetooth permission.</p></div>
+  </div>
+  <div style="height:22px"></div>
+  <div class="two">
+    <div>
+      <span class="label">Lines of code by file</span>
+      <div class="bars" id="bars" style="margin-top:10px"></div>
+    </div>
+    <div>
+      <span class="label">The heart of the decoder (goveeble.go)</span>
+<pre class="code" style="margin-top:10px"><span class="c">// decodeReading unpacks Govee's 3-byte reading.</span>
+<span class="k">func</span> decodeReading(b0, b1, b2 <span class="k">byte</span>) (tempC, hum <span class="k">float64</span>) {
+	n := <span class="k">int</span>(b0)&lt;&lt;16 | <span class="k">int</span>(b1)&lt;&lt;8 | <span class="k">int</span>(b2)
+	neg := n&amp;<span class="s">0x800000</span> != 0
+	n &amp;= <span class="s">0x7FFFF</span>
+	tempC = <span class="k">float64</span>(n/<span class="s">1000</span>) / <span class="s">10</span>
+	<span class="k">if</span> neg {
+		tempC = -tempC
+	}
+	<span class="k">return</span> tempC, <span class="k">float64</span>(n%<span class="s">1000</span>) / <span class="s">10</span>
+}</pre>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="ticket">
+  <div class="ticket-head"><span class="stencil">Service ticket · work order complete</span><span class="stamp">Field verified</span></div>
+  <dl>
+    <div><dt>System</dt><dd>Thermal Survey · govee-hvac</dd></div>
+    <div><dt>Sensors</dt><dd>3 × Govee H5179</dd></div>
+    <div><dt>Data on this page</dt><dd id="built">Live MySQL cache</dd></div>
+    <div><dt>Unit tests</dt><dd>12 passing</dd></div>
+    <div><dt>Tech notes</dt><dd>Sync at least once every 20 days. The 4 AM humidity pattern has not returned since Nov 17.</dd></div>
+  </dl>
+</footer>
+
+</div></div>
+
+<script src="data.js"></script>
+<script>
+(() => {
+"use strict";
+const D = window.SURVEY;
+const NS = "http://www.w3.org/2000/svg";
+const TZ = "America/Los_Angeles";
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, attrs = {}, parent) => {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+};
+const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const fmt = (opts) => new Intl.DateTimeFormat("en-US", { timeZone: TZ, ...opts });
+const fDay = fmt({ month: "short", day: "numeric" });
+const fDayW = fmt({ weekday: "short", month: "short", day: "numeric" });
+const fTime = fmt({ hour: "numeric", minute: "2-digit" });
+const fFull = fmt({ weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+const fParts = fmt({ year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", hourCycle: "h23" });
+const localParts = (sec) => Object.fromEntries(fParts.formatToParts(new Date(sec * 1000)).map((p) => [p.type, p.value]));
+const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+// Replay an animation the first time something scrolls into view (it is fully drawn at rest).
+const onView = (node, fn) => {
+  if (reduce || !("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); fn(); } }, { threshold: 0.25 });
+  io.observe(node);
+};
+
+// ---------- counters ----------
+document.querySelectorAll("[data-count]").forEach((n) => {
+  const target = +n.dataset.count;
+  onView(n, () => {
+    const t0 = performance.now(), dur = 1600;
+    const tick = (t) => {
+      const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      n.textContent = Math.round(target * e).toLocaleString("en-US");
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+});
+
+// ---------- hero gauges ----------
+(() => {
+  const host = $("#gstrip");
+  const pt = (f, r) => { const a = (f - 70) * 4 * Math.PI / 180; return [100 + r * Math.sin(a), 110 - r * Math.cos(a)]; };
+  const arc = (cls, f0, f1) => { const [x0, y0] = pt(f0, 76), [x1, y1] = pt(f1, 76); return `<path class="g-zone ${cls}" d="M${x0} ${y0} A76 76 0 ${(f1 - f0) * 4 > 180 ? 1 : 0} 1 ${x1} ${y1}"/>`; };
+  let face = arc("c", 40, 66) + arc("m", 66, 76) + arc("h", 76, 100);
+  for (let f = 40; f <= 100; f += 2) {
+    const M = f % 10 === 0, r0 = M ? 64 : f % 10 === 5 ? 70 : 73;
+    const [a, b] = pt(f, r0), [c, d] = pt(f, 80);
+    face += `<line class="g-tick${M ? " M" : ""}" x1="${a}" y1="${b}" x2="${c}" y2="${d}"/>`;
+    if (M) { const [lx, ly] = pt(f, 52); face += `<text class="g-lab" x="${lx}" y="${ly + 4}">${f}</text>`; }
+  }
+  D.hourly.rooms.forEach((r) => {
+    let i = r.temp.length - 1; while (i > 0 && r.temp[i] == null) i--;
+    const v = r.temp[i], ang = Math.max(-120, Math.min(120, (v - 70) * 4));
+    const card = document.createElement("div");
+    card.className = "gcard";
+    card.innerHTML = `<div class="nm"><span class="sw s${r.slot}"></span>${esc(r.name)}</div>
+      <svg viewBox="0 14 200 160" role="img" aria-label="${v.toFixed(1)} degrees"><circle class="g-bezel" cx="100" cy="110" r="94"/><circle class="g-face" cx="100" cy="110" r="86"/>${face}
+      <g class="g-needle" style="--a:${ang}deg"><path d="M97 110 L100 40 L103 110 Z"/></g><circle class="g-cap" cx="100" cy="110" r="8"/></svg>
+      <span class="lcd">${v.toFixed(1)}°F</span>`;
+    host.appendChild(card);
+  });
+})();
+
+// ---------- hero canvas: air handler ----------
+(() => {
+  const cv = $("#air"), ctx = cv.getContext("2d");
+  let W = 0, H = 0, dpr = 1, parts = [], colors = {};
+  const N = 260;
+  const readColors = () => { colors = { cold: css("--cold"), hot: css("--hot"), duct: css("--duct"), din: css("--duct-in"), ink: css("--ink-2"), acc: css("--accent"), surf: css("--chart-surface"), muted: css("--muted") }; };
+  const resize = () => {
+    const r = cv.getBoundingClientRect(); dpr = Math.min(2, devicePixelRatio || 1);
+    W = r.width; H = r.height; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+  const spawn = (p, fresh) => {
+    p.x = fresh ? Math.random() * W : -10 - Math.random() * 40;
+    p.y = H * (0.3 + Math.random() * 0.4); p.v = 1.1 + Math.random() * 1.4; p.ph = Math.random() * 6.28; p.heat = 0;
+    return p;
+  };
+  const mix = (a, b, t) => {
+    const pa = a.match(/\w\w/g).map((h) => parseInt(h, 16)), pb = b.match(/\w\w/g).map((h) => parseInt(h, 16));
+    return `rgb(${pa.map((v, i) => Math.round(v + (pb[i] - v) * t)).join(",")})`;
+  };
+  let ang = 0, last = 0;
+  const frame = (t) => {
+    const dt = Math.min(50, t - (last || t)) / 16.7; last = t;
+    ctx.fillStyle = colors.surf; ctx.fillRect(0, 0, W, H);
+    const top = H * 0.24, bot = H * 0.76, coilX = W * 0.56, fanX = W * 0.24;
+    // duct walls
+    ctx.fillStyle = colors.din; ctx.fillRect(0, top, W, bot - top);
+    ctx.strokeStyle = colors.duct; ctx.lineWidth = 8; ctx.beginPath(); ctx.moveTo(0, top); ctx.lineTo(W, top); ctx.moveTo(0, bot); ctx.lineTo(W, bot); ctx.stroke();
+    // coil fins
+    ctx.strokeStyle = colors.muted; ctx.lineWidth = 1;
+    for (let i = 0; i < 16; i++) { const x = coilX - 24 + i * 3.2; ctx.beginPath(); ctx.moveTo(x, top + 6); ctx.lineTo(x, bot - 6); ctx.stroke(); }
+    ctx.strokeStyle = colors.hot; ctx.lineWidth = 3; ctx.beginPath();
+    for (let y = top + 14; y < bot - 10; y += 16) { ctx.moveTo(coilX - 28, y); ctx.lineTo(coilX + 28, y); }
+    ctx.stroke();
+    // particles
+    for (const p of parts) {
+      const near = Math.abs(p.x - fanX) < 46 ? 1.9 : 1;
+      p.x += p.v * near * dt * (W / 520);
+      p.y += Math.sin(p.ph + p.x / 38) * 0.6 * dt;
+      p.y = Math.max(top + 6, Math.min(bot - 6, p.y));
+      if (p.x > coilX - 20) p.heat = Math.min(1, p.heat + 0.05 * dt);
+      if (p.x > W + 12) spawn(p, false);
+      ctx.fillStyle = mix(colors.cold, colors.hot, p.heat);
+      ctx.globalAlpha = 0.85;
+      ctx.beginPath(); ctx.ellipse(p.x, p.y, 4 + p.v, 1.6, 0, 0, 6.283); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    // fan
+    ang += 0.22 * dt;
+    ctx.save(); ctx.translate(fanX, (top + bot) / 2);
+    ctx.strokeStyle = colors.duct; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(0, 0, (bot - top) * 0.42, 0, 6.283); ctx.stroke();
+    ctx.rotate(ang); ctx.fillStyle = colors.ink; ctx.globalAlpha = .55;
+    for (let i = 0; i < 5; i++) { ctx.rotate(6.283 / 5); ctx.beginPath(); ctx.ellipse(0, -(bot - top) * 0.2, (bot - top) * 0.07, (bot - top) * 0.2, 0.35, 0, 6.283); ctx.fill(); }
+    ctx.globalAlpha = 1; ctx.fillStyle = colors.acc; ctx.beginPath(); ctx.arc(0, 0, 7, 0, 6.283); ctx.fill(); ctx.restore();
+    // labels
+    ctx.fillStyle = colors.ink; ctx.font = `700 ${Math.max(11, W / 52)}px "Saira Condensed", sans-serif`;
+    ctx.textAlign = "center";
+    ctx.fillText("RETURN AIR", W * 0.08 + 20, top - 12); ctx.fillText("BLOWER", fanX, bot + 22); ctx.fillText("HEAT PUMP COIL", coilX, bot + 22); ctx.fillText("SUPPLY AIR", W * 0.88, top - 12);
+    if (!reduce) requestAnimationFrame(frame);
+  };
+  const start = () => { readColors(); resize(); parts = Array.from({ length: N }, () => spawn({}, true)); requestAnimationFrame(frame); };
+  start();
+  addEventListener("resize", () => { resize(); if (reduce) requestAnimationFrame(frame); });
+  const re = () => { readColors(); if (reduce) requestAnimationFrame(frame); };
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", re);
+  new MutationObserver(re).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+})();
+
+// ---------- line chart builder ----------
+function niceStep(raw) { const m = Math.pow(10, Math.floor(Math.log10(raw))); for (const k of [1, 2, 2.5, 5, 10]) if (raw <= k * m) return k * m; return 10 * m; }
+function lineChart(host, o) {
+  const W = 960, H = o.h || 300, L = 46, R = 176, T = 14, B = 30;
+  const X0 = L, X1 = W - R, Y0 = T, Y1 = H - B;
+  let lo = Infinity, hi = -Infinity;
+  o.series.forEach((s) => s.pts.forEach(([, v]) => { if (v != null) { lo = Math.min(lo, v); hi = Math.max(hi, v); } }));
+  if (hi - lo < o.minSpan) { const m = (hi + lo) / 2; lo = m - o.minSpan / 2; hi = m + o.minSpan / 2; }
+  const st = niceStep((hi - lo) / 5), yMin = Math.floor(lo / st) * st, yMax = Math.ceil(hi / st) * st;
+  const xOf = (t) => X0 + (X1 - X0) * (t - o.t0) / (o.t1 - o.t0), yOf = (v) => Y1 - (Y1 - Y0) * (v - yMin) / (yMax - yMin);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": o.label, class: "draw" });
+  (o.bands || []).forEach((b) => {
+    el("rect", { class: "c-band" + (b.q ? " q" : ""), x: xOf(b.t0), y: Y0, width: Math.max(2, xOf(b.t1) - xOf(b.t0)), height: Y1 - Y0 }, svg);
+    const tx = el("text", { class: "c-ann", x: xOf(b.t0) + 4, y: Y0 + 14 }, svg); tx.textContent = b.label;
+  });
+  for (let v = yMin; v <= yMax + st / 2; v += st) {
+    el("line", { class: "c-grid", x1: X0, x2: X1, y1: yOf(v), y2: yOf(v) }, svg);
+    const t = el("text", { class: "c-tick", x: X0 - 8, y: yOf(v) + 4, "text-anchor": "end" }, svg); t.textContent = +v.toFixed(2);
+  }
+  el("line", { class: "c-axis", x1: X0, x2: X1, y1: Y1, y2: Y1 }, svg);
+  o.ticks.forEach(([t, lab]) => {
+    const x = xOf(t); el("line", { class: "c-axis", x1: x, x2: x, y1: Y1, y2: Y1 + 5 }, svg);
+    const tx = el("text", { class: "c-tick", x, y: Y1 + 19, "text-anchor": "middle" }, svg); tx.textContent = lab;
+  });
+  (o.marks || []).forEach((m) => {
+    el("line", { class: "c-ann-line", x1: xOf(m.t), x2: xOf(m.t), y1: yOf(m.v), y2: yOf(m.v) + 30 }, svg);
+    el("circle", { cx: xOf(m.t), cy: yOf(m.v), r: 4, fill: "none", stroke: "var(--chart-ink-2)", "stroke-width": 1.5 }, svg);
+    const tx = el("text", { class: "c-ann", x: xOf(m.t) + 6, y: yOf(m.v) + 42 }, svg); tx.textContent = m.label;
+  });
+  const labels = [];
+  o.series.forEach((s) => {
+    let d = "", prev = null;
+    s.pts.forEach(([t, v]) => {
+      if (v == null) { prev = null; return; }
+      if (s.step && prev) d += `H${xOf(t).toFixed(1)}V${yOf(v).toFixed(1)}`;
+      else d += `${prev && t - prev[0] <= o.gap ? "L" : "M"}${xOf(t).toFixed(1)} ${yOf(v).toFixed(1)}`;
+      prev = [t, v];
+    });
+    el("path", { class: (s.step ? "c-step" : "c-line s" + s.slot), d, pathLength: 1 }, svg);
+    const last = [...s.pts].reverse().find((p) => p[1] != null);
+    labels.push({ y: yOf(last[1]), slot: s.slot, text: `${s.name} ${last[1].toFixed(o.dec)}${o.unit}` });
+  });
+  labels.sort((a, b) => a.y - b.y);
+  for (let i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 16) labels[i].y = labels[i - 1].y + 16;
+  labels.forEach((l) => {
+    el("circle", { class: "c-dot s" + l.slot, cx: X1 + 14, cy: l.y, r: 4.5 }, svg);
+    const t = el("text", { class: "c-end", x: X1 + 24, y: l.y + 4 }, svg); t.textContent = l.text;
+  });
+  const hov = el("g", { class: "c-hover", hidden: "" }, svg);
+  const xl = el("line", { class: "c-x", y1: Y0, y2: Y1 }, hov);
+  const dots = o.series.map((s) => el("circle", { class: "c-dot s" + s.slot, r: 4.5 }, hov));
+  const hit = el("rect", { class: "c-hit", x: X0, y: Y0, width: X1 - X0, height: Y1 - Y0 }, svg);
+  host.appendChild(svg);
+  const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; host.appendChild(tip);
+  const near = (pts, t) => { let lo = 0, hi = pts.length - 1; while (hi - lo > 1) { const m = (lo + hi) >> 1; if (pts[m][0] < t) lo = m; else hi = m; } return Math.abs(pts[lo][0] - t) < Math.abs(pts[hi][0] - t) ? pts[lo] : pts[hi]; };
+  const move = (ev) => {
+    const p = svg.createSVGPoint(); p.x = ev.clientX; p.y = ev.clientY;
+    const q = p.matrixTransform(svg.getScreenCTM().inverse());
+    const t = o.t0 + (q.x - X0) / (X1 - X0) * (o.t1 - o.t0);
+    const snap = near(o.series[0].pts, t)[0];
+    let rows = "";
+    o.series.forEach((s, i) => {
+      const n = near(s.pts, snap);
+      if (n[1] == null || Math.abs(n[0] - snap) > o.gap) { dots[i].setAttribute("visibility", "hidden"); return; }
+      dots[i].setAttribute("visibility", "visible"); dots[i].setAttribute("cx", xOf(n[0])); dots[i].setAttribute("cy", yOf(n[1]));
+      rows += `<div class="r"><span class="sw s${s.slot}"></span>${esc(s.name)}<span class="v">${n[1].toFixed(o.dec)}${o.unit}</span></div>`;
+    });
+    xl.setAttribute("x1", xOf(snap)); xl.setAttribute("x2", xOf(snap)); hov.removeAttribute("hidden");
+    tip.innerHTML = `<b>${o.tipTime(snap)}</b>${rows}`; tip.hidden = false;
+    const sb = svg.getBoundingClientRect(), hb = host.getBoundingClientRect();
+    const px = sb.left - hb.left + host.scrollLeft + xOf(snap) / W * sb.width;
+    let left = px + 14; if (left + tip.offsetWidth > host.scrollLeft + host.clientWidth - 4) left = px - tip.offsetWidth - 14;
+    tip.style.left = Math.max(4, left) + "px";
+  };
+  hit.addEventListener("pointermove", move); hit.addEventListener("pointerdown", move);
+  hit.addEventListener("pointerleave", () => { hov.setAttribute("hidden", ""); tip.hidden = true; });
+  onView(host, () => svg.classList.add("play"));
+}
+
+// ---------- chart: cloud vs sensor ----------
+(() => {
+  const S = D.cloudVsSensor, t0 = S.sensor[0][0], t1 = S.sensor[S.sensor.length - 1][0];
+  const ticks = []; for (let t = Math.ceil(t0 / 600) * 600; t <= t1; t += 1200) ticks.push([t, fTime.format(new Date(t * 1000))]);
+  lineChart($("#ch-cloud"), {
+    label: "Sensor minute log versus the Govee cloud value, Downstairs, Nov 20 afternoon", unit: "°F", dec: 2, minSpan: 1.6, gap: 300, h: 320,
+    t0, t1, ticks, tipTime: (t) => fTime.format(new Date(t * 1000)),
+    series: [{ name: "Sensor", slot: 1, pts: S.sensor }, { name: "Cloud API", slot: 2, step: true, pts: S.api.filter((p) => p[0] <= t1) }],
+    bands: [{ t0: S.api[0][0], t1: S.api.filter((p) => p[1] === S.api[0][1]).pop()[0], label: "Cloud frozen at 70.55 °F", q: true }],
+  });
+})();
+
+// ---------- charts: 20 days ----------
+(() => {
+  const h = D.hourly, n = h.rooms[0].temp.length, t0 = h.start, t1 = h.start + (n - 1) * h.step;
+  const ser = (key) => h.rooms.map((r) => ({ name: r.name, slot: r.slot, pts: r[key].map((v, i) => [t0 + i * h.step, v]) }));
+  const ticks = [];
+  for (let t = t0; t <= t1; t += 3600) { const p = localParts(t); if (p.hour === "00" && +p.day % 2 === 0) ticks.push([t, fDay.format(new Date(t * 1000))]); }
+  const lg = (id) => { $(id).innerHTML = h.rooms.map((r) => `<li><span class="sw s${r.slot}"></span>${esc(r.name)}</li>`).join(""); };
+  lg("#lg-house"); lg("#lg-hum");
+  // Heat pump: last heating 2026-11-16 19:37 PST, back 2026-11-17 15:57 PST.
+  const b0 = Date.UTC(2026, 10, 17, 3, 37) / 1000, b1 = Date.UTC(2026, 10, 17, 23, 57) / 1000;
+  const cold = Date.UTC(2026, 10, 11, 11, 0) / 1000;
+  const masterCold = h.rooms[2].temp[(cold - t0) / 3600];
+  lineChart($("#ch-temp"), {
+    label: "Hourly temperature in three rooms over 20 days", unit: "°F", dec: 1, minSpan: 6, gap: 7200, h: 330,
+    t0, t1, ticks, tipTime: (t) => fFull.format(new Date(t * 1000)), series: ser("temp"),
+    bands: [{ t0: b0, t1: b1, label: "Heat pump down" }],
+    marks: masterCold ? [{ t: cold, v: masterCold, label: "Coldest night" }] : [],
+  });
+  lineChart($("#ch-hum"), {
+    label: "Hourly relative humidity in three rooms over 20 days", unit: "%", dec: 1, minSpan: 8, gap: 7200, h: 250,
+    t0, t1, ticks, tipTime: (t) => fFull.format(new Date(t * 1000)), series: ser("hum"),
+    bands: [{ t0: Date.UTC(2026, 10, 4, 8) / 1000, t1: Date.UTC(2026, 10, 17, 8) / 1000, label: "4 AM humidity jumps downstairs", q: true }],
+  });
+  // daily table
+  const days = new Map();
+  h.rooms.forEach((r, ri) => r.temp.forEach((v, i) => {
+    if (v == null) return; const t = t0 + i * 3600, p = localParts(t), k = `${p.year}-${p.month}-${p.day}`;
+    if (!days.has(k)) days.set(k, { t, rooms: h.rooms.map(() => []) });
+    days.get(k).rooms[ri].push(v);
+  }));
+  let html = `<table><thead><tr><th>Day</th>${h.rooms.map((r) => `<th>${esc(r.name)} avg</th><th>low</th><th>high</th>`).join("")}</tr></thead><tbody>`;
+  [...days.values()].forEach((d) => {
+    html += `<tr><td>${fDayW.format(new Date(d.t * 1000))}</td>` + d.rooms.map((a) => a.length ? `<td>${(a.reduce((x, y) => x + y, 0) / a.length).toFixed(1)}</td><td>${Math.min(...a).toFixed(1)}</td><td>${Math.max(...a).toFixed(1)}</td>` : "<td>–</td><td>–</td><td>–</td>").join("") + "</tr>";
+  });
+  $("#tbl").innerHTML = html + "</tbody></table>";
+})();
+
+// ---------- sequence diagram ----------
+(() => {
+  const svg = $("#seq"), stepsEl = $("#steps");
+  const msgs = [
+    { y: 80, dir: 1, hex: "connect", lbl: "1 · Connect", t: "<b>Connect.</b> The laptop finds GV5179_1A2B by its advertised name, or connects straight to the address it remembered last time." },
+    { y: 140, dir: 1, hex: "e7 01 …", lbl: "2 · Auth request", t: "<b>Handshake, step 1.</b> Sends e7 01, encrypted with a key built into the Govee app (AES-128 on 16 bytes, RC4 on the last 4)." },
+    { y: 190, dir: -1, hex: "e7 01 + 16-byte key", lbl: "Session key", t: "<b>Session key.</b> The sensor replies with a fresh 16-byte key. Everything after this is encrypted with it, in both directions." },
+    { y: 245, dir: 1, hex: "e7 02 …", lbl: "3 · Confirm", t: "<b>Handshake, step 2.</b> e7 02 completes the exchange." },
+    { y: 305, dir: 1, hex: "33 01 00 c8 00 01", lbl: "4 · Request", t: "<b>History request.</b> 33 01, then 00 c8: “send me the last 200 minutes.” Byte 20 is an XOR checksum." },
+    { y: 365, dir: -1, hex: "00 c8 03 55 b1 …", lbl: "5 · Stream", stream: true, t: "<b>Stream.</b> 34 notifications, six readings each, oldest first. 200 minutes arrive in about one second." },
+    { y: 450, dir: -1, hex: "ee 01", lbl: "6 · Done", t: "<b>Done.</b> ee 01 ends the transfer. The app decrypts, decodes, applies calibration and inserts only the minutes it doesn't already have." },
+  ];
+  const A = 115, B = 445;
+  const groups = msgs.map((m, i) => {
+    const g = el("g", { class: "msg" }, svg);
+    if (m.stream) {
+      for (let k = 0; k < 7; k++) el("line", { x1: B, x2: A + 6, y1: m.y + k * 9 - 20, y2: m.y + k * 9 - 20, "marker-end": "url(#ah)" }, g);
+    } else {
+      el("line", { x1: m.dir > 0 ? A : B, x2: m.dir > 0 ? B - 6 : A + 6, y1: m.y, y2: m.y, "marker-end": "url(#ah)" }, g);
+    }
+    const tx = el("text", { x: (A + B) / 2, y: m.y - (m.stream ? 28 : 8), "text-anchor": "middle" }, g); tx.textContent = m.hex;
+    const lb = el("text", { class: "lbl", x: m.dir > 0 ? A - 8 : B + 8, y: m.y + 4, "text-anchor": m.dir > 0 ? "end" : "start" }, g); lb.textContent = m.lbl.split(" · ")[0];
+    const li = document.createElement("li");
+    li.innerHTML = `<button type="button"><span class="n">${String(i + 1).padStart(2, "0")}</span><span class="t">${m.t}</span></button>`;
+    li.querySelector("button").addEventListener("click", () => { go(i); hold = 2; });
+    stepsEl.appendChild(li);
+    return g;
+  });
+  const dot = el("circle", { class: "seq-dot", r: 7, cx: A, cy: 80 }, svg);
+  let cur = -1, hold = 0, anim = null;
+  const go = (i) => {
+    cur = i;
+    groups.forEach((g, k) => g.setAttribute("class", "msg" + (k < i ? " done" : k === i ? " on" : "")));
+    [...stepsEl.children].forEach((li, k) => li.classList.toggle("on", k === i));
+    const m = msgs[i], from = m.dir > 0 ? A : B, to = m.dir > 0 ? B : A;
+    if (anim) cancelAnimationFrame(anim);
+    if (reduce) { dot.setAttribute("cx", to); dot.setAttribute("cy", m.y); return; }
+    const t0 = performance.now(), reps = m.stream ? 6 : 1, dur = m.stream ? 260 : 900;
+    const step = (t) => {
+      const e = (t - t0) / dur, k = e % 1, r = Math.floor(e);
+      dot.setAttribute("cx", from + (to - from) * k);
+      dot.setAttribute("cy", m.stream ? m.y - 20 + (r % 7) * 9 : m.y);
+      if (r < reps) anim = requestAnimationFrame(step); else { dot.setAttribute("cx", to); }
+    };
+    anim = requestAnimationFrame(step);
+  };
+  go(0);
+  if (!reduce) setInterval(() => { if (hold > 0) { hold--; return; } go((cur + 1) % msgs.length); }, 2600);
+
+  // cipher scramble: ciphertext <-> plaintext (real capture)
+  const C = "e2c854bdc14544a46bae764894084c5c24a83cd9", P = "3301000000000000000000000000000000000032";
+  const hx = $("#cipher-hex"), lab = $("#cipher-lab");
+  let showingPlain = false;
+  const morph = (to, label) => {
+    if (reduce) { hx.textContent = to; lab.textContent = label; return; }
+    const t0 = performance.now();
+    const f = (t) => {
+      const k = Math.min(1, (t - t0) / 1400);
+      hx.textContent = [...to].map((c, i) => (i / to.length < k ? c : "0123456789abcdef"[Math.random() * 16 | 0])).join("");
+      if (k < 1) requestAnimationFrame(f); else lab.textContent = label;
+    };
+    requestAnimationFrame(f);
+  };
+  setInterval(() => {
+    showingPlain = !showingPlain;
+    morph(showingPlain ? P : C, showingPlain ? "Decrypted: 33 01 00 00 … checksum 32 — request acknowledged" : "Encrypted on the air · decrypting with the session key…");
+  }, reduce ? 6000 : 4000);
+})();
+
+// ---------- packet decoder ----------
+(() => {
+  const PK = D.packets, REQ = 1795233180; // the request minute recorded with these packets
+  const CAL = -0.5;
+  const host = $("#bytes"), cells = [];
+  for (let i = 0; i < 20; i++) { const c = document.createElement("div"); c.className = "byte"; c.innerHTML = `<span class="i">${i + 1}</span><span class="b"></span>`; host.appendChild(c); cells.push(c); }
+  const hist = [];
+  const spark = $("#spark");
+  const drawSpark = () => {
+    if (!hist.length) { spark.innerHTML = ""; return; }
+    const lo = Math.min(...hist) - .2, hi = Math.max(...hist) + .2, w = 300, h = 60;
+    const pts = hist.map((v, i) => `${(i / Math.max(1, 59)) * w},${h - (v - lo) / (hi - lo) * h}`).join(" ");
+    spark.innerHTML = `<svg viewBox="0 0 ${w} ${h + 4}" preserveAspectRatio="none" role="img" aria-label="Decoded readings"><polyline points="${pts}" fill="none" stroke="var(--s1)" stroke-width="2" vector-effect="non-scaling-stroke"/><circle cx="${((hist.length - 1) / 59) * w}" cy="${h - (hist[hist.length - 1] - lo) / (hi - lo) * h}" r="3.5" fill="var(--s1)"/></svg>`;
+  };
+  let p = 0, r = -1, playing = !reduce;
+  const show = () => {
+    const bytes = PK[p].match(/../g), off = parseInt(bytes[0] + bytes[1], 16);
+    $("#dec-pk").textContent = `Packet ${p + 1} of ${PK.length} · countdown 0x${(bytes[0] + bytes[1]).toUpperCase()} = ${off}`;
+    cells.forEach((c, i) => {
+      c.querySelector(".b").textContent = bytes[i];
+      let cls = "byte " + (i < 2 ? "off" : "rd");
+      if (r >= 0 && i >= 2 + r * 3 && i < 5 + r * 3) cls += " cur";
+      else if (r >= 0 && i >= 2 && i < 2 + r * 3) cls += " used";
+      c.className = cls;
+    });
+    if (r < 0) return;
+    const i = 2 + r * 3, n = parseInt(bytes[i] + bytes[i + 1] + bytes[i + 2], 16) & 0x7ffff;
+    const tc = Math.floor(n / 1000) / 10, hm = (n % 1000) / 10, tf = tc * 9 / 5 + 32;
+    const mins = off - r, when = REQ - mins * 60;
+    $("#m-hex").textContent = "0x" + (bytes[i] + bytes[i + 1] + bytes[i + 2]).toUpperCase();
+    $("#m-n").textContent = n.toString();
+    $("#m-split").textContent = `${tc.toFixed(1)} °C · ${hm.toFixed(1)} %`;
+    $("#m-out").textContent = `${(tf + CAL).toFixed(1)} °F · ${hm.toFixed(1)} %`;
+    $("#m-time").textContent = `request time − ${mins} min = ${fTime.format(new Date(when * 1000))}`;
+    hist.push(+(tf + CAL).toFixed(2)); if (hist.length > 60) hist.shift(); drawSpark();
+  };
+  const next = () => { r++; if (r > 5) { r = 0; p = (p + 1) % PK.length; } show(); };
+  r = 0; show();
+  let timer = null;
+  const setPlay = (on) => {
+    playing = on; $("#dec-play").textContent = on ? "Pause" : "Play"; $("#dec-play").setAttribute("aria-pressed", String(on));
+    clearInterval(timer); if (on) timer = setInterval(next, 1300);
+  };
+  $("#dec-play").addEventListener("click", () => setPlay(!playing));
+  $("#dec-next").addEventListener("click", () => { setPlay(false); next(); });
+  setPlay(playing);
+})();
+
+// ---------- radial heat map ----------
+(() => {
+  const cv = $("#radial"), ctx = cv.getContext("2d"), h = D.hourly;
+  let room = 2, cells = [], days = [], sweep = 0, size = 0, dpr = 1, hover = null, intro = reduce ? 1 : 0;
+  const grid = (ri) => {
+    const map = new Map();
+    h.rooms[ri].temp.forEach((v, i) => {
+      if (v == null) return; const t = h.start + i * 3600, p = localParts(t), k = `${p.year}-${p.month}-${p.day}`;
+      if (!map.has(k)) map.set(k, { t, h: Array(24).fill(null) }); map.get(k).h[+p.hour] = v;
+    });
+    return [...map.values()].filter((d) => d.h.filter((v) => v != null).length >= 18);
+  };
+  const hexRgb = (c) => { const m = c.match(/\w\w/g); return m ? m.map((x) => parseInt(x, 16)) : [128, 128, 128]; };
+  let C = {};
+  const readC = () => { C = { cold: hexRgb(css("--cold")), mid: hexRgb(css("--mid")), hot: hexRgb(css("--hot")), ink: css("--ink-2"), muted: css("--muted"), acc: css("--accent"), surf: css("--chart-surface") }; drawScale(); };
+  const col = (v) => {
+    const t = Math.max(-1, Math.min(1, (v - 70) / 5)), a = t < 0 ? C.mid : C.mid, b = t < 0 ? C.cold : C.hot, k = Math.abs(t);
+    return `rgb(${a.map((x, i) => Math.round(x + (b[i] - x) * k)).join(",")})`;
+  };
+  const drawScale = () => { $("#rad-scale").style.background = `linear-gradient(90deg, rgb(${C.cold}), rgb(${C.mid}), rgb(${C.hot}))`; };
+  const resize = () => { const r = cv.getBoundingClientRect(); dpr = Math.min(2, devicePixelRatio || 1); size = r.width; cv.width = size * dpr; cv.height = size * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+  const geom = () => { const c = size / 2, r0 = size * 0.12, r1 = size * 0.44; return { c, r0, r1, rw: (r1 - r0) / days.length }; };
+  const draw = () => {
+    const { c, r0, r1, rw } = geom();
+    ctx.clearRect(0, 0, size, size);
+    days.forEach((d, di) => {
+      const vis = Math.min(1, Math.max(0, intro * days.length * 1.4 - di));
+      if (vis <= 0) return;
+      d.h.forEach((v, hr) => {
+        if (v == null) return;
+        const a0 = -Math.PI / 2 + hr / 24 * Math.PI * 2, a1 = a0 + Math.PI * 2 / 24;
+        ctx.globalAlpha = vis; ctx.fillStyle = col(v);
+        ctx.beginPath(); ctx.arc(c, c, r0 + (di + 1) * rw - 0.6, a0 + .01, a1 - .01); ctx.arc(c, c, r0 + di * rw + 0.6, a1 - .01, a0 + .01, true); ctx.closePath(); ctx.fill();
+      });
+      if (fDay.format(new Date(d.t * 1000)) === "Nov 17") {
+        ctx.globalAlpha = 1; ctx.strokeStyle = C.ink; ctx.lineWidth = 1.5; ctx.setLineDash([3, 3]);
+        ctx.beginPath(); ctx.arc(c, c, r0 + (di + 1) * rw, 0, 6.283); ctx.stroke(); ctx.setLineDash([]);
+      }
+    });
+    ctx.globalAlpha = 1;
+    if (hover) {
+      const { di, hr } = hover, a0 = -Math.PI / 2 + hr / 24 * Math.PI * 2, a1 = a0 + Math.PI * 2 / 24;
+      ctx.strokeStyle = C.acc; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(c, c, r0 + (di + 1) * rw, a0, a1); ctx.arc(c, c, r0 + di * rw, a1, a0, true); ctx.closePath(); ctx.stroke();
+    }
+    // hour labels
+    ctx.fillStyle = C.ink; ctx.font = `700 ${Math.max(11, size / 46)}px "Saira Condensed", sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    [["12 AM", 0], ["6 AM", 6], ["NOON", 12], ["6 PM", 18]].forEach(([l, hr]) => { const a = -Math.PI / 2 + hr / 24 * Math.PI * 2; ctx.fillText(l, c + Math.cos(a) * (r1 + size * 0.04), c + Math.sin(a) * (r1 + size * 0.04)); });
+    for (let hr = 0; hr < 24; hr++) { const a = -Math.PI / 2 + hr / 24 * Math.PI * 2; ctx.strokeStyle = C.muted; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(c + Math.cos(a) * (r1 + 2), c + Math.sin(a) * (r1 + 2)); ctx.lineTo(c + Math.cos(a) * (r1 + (hr % 6 ? 6 : 10)), c + Math.sin(a) * (r1 + (hr % 6 ? 6 : 10))); ctx.stroke(); }
+    // sweep hand
+    const sa = -Math.PI / 2 + sweep;
+    ctx.strokeStyle = C.acc; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(c, c); ctx.lineTo(c + Math.cos(sa) * (r1 + 4), c + Math.sin(sa) * (r1 + 4)); ctx.stroke();
+    ctx.fillStyle = C.acc; ctx.beginPath(); ctx.arc(c, c, 6, 0, 6.283); ctx.fill();
+    ctx.fillStyle = C.ink; ctx.font = `600 ${Math.max(10, size / 56)}px system-ui, sans-serif`;
+    if (days.length) { ctx.fillText(fDay.format(new Date(days[0].t * 1000)), c, c + r0 * 0.55); }
+  };
+  let last = 0;
+  const loop = (t) => { const dt = Math.min(50, t - (last || t)); last = t; sweep = (sweep + dt * 0.00035) % (Math.PI * 2); if (intro < 1) intro = Math.min(1, intro + dt / 2200); draw(); requestAnimationFrame(loop); };
+  const tabs = $("#rad-tabs");
+  h.rooms.forEach((r, i) => {
+    const b = document.createElement("button"); b.type = "button"; b.textContent = r.name; b.setAttribute("aria-pressed", String(i === room));
+    b.addEventListener("click", () => { room = i; days = grid(i); [...tabs.children].forEach((x, k) => x.setAttribute("aria-pressed", String(k === i))); if (!reduce) intro = 0; draw(); });
+    tabs.appendChild(b);
+  });
+  cv.addEventListener("pointermove", (ev) => {
+    const rect = cv.getBoundingClientRect(), x = ev.clientX - rect.left - size / 2, y = ev.clientY - rect.top - size / 2;
+    const { r0, rw } = geom(), rr = Math.hypot(x, y), di = Math.floor((rr - r0) / rw);
+    let a = Math.atan2(y, x) + Math.PI / 2; if (a < 0) a += Math.PI * 2;
+    const hr = Math.floor(a / (Math.PI * 2) * 24);
+    if (di >= 0 && di < days.length && days[di].h[hr] != null) {
+      hover = { di, hr };
+      const label = fmt({ weekday: "short", month: "short", day: "numeric" }).format(new Date(days[di].t * 1000));
+      const hh = hr === 0 ? "12 AM" : hr < 12 ? hr + " AM" : hr === 12 ? "Noon" : hr - 12 + " PM";
+      $("#rad-read").innerHTML = `<b>${days[di].h[hr].toFixed(1)} °F</b>${label}, ${hh} · ${esc(h.rooms[room].name)}`;
+    } else hover = null;
+    if (reduce) draw();
+  });
+  cv.addEventListener("pointerleave", () => { hover = null; if (reduce) draw(); });
+  days = grid(room); readC(); resize();
+  if (reduce) draw(); else requestAnimationFrame(loop);
+  onView(cv, () => { intro = 0; });
+  addEventListener("resize", () => { resize(); draw(); });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { readC(); draw(); });
+  new MutationObserver(() => { readC(); draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+})();
+
+// ---------- screenshot carousel ----------
+(() => {
+  const shots = [
+    { src: "shots/dashboard-light.jpg", url: "localhost:8179/?range=7d", tab: "Dashboard", cap: "All zones at a glance: manifold-style gauges, digital readouts and a 7-day log with a hover readout." },
+    { src: "shots/dashboard-dark.jpg", url: "localhost:8179/?range=7d", tab: "Dark mode", cap: "The same page in dark mode. The chart colors were validated for color-blind separation in both themes." },
+    { src: "shots/room-master.jpg", url: "localhost:8179/room/A1:B2:C3:D4:E5:F6:3C:4D?range=7d", tab: "Room detail", cap: "One room: low, high, average and swing, plus a shaded band showing the minimum and maximum inside each interval." },
+    { src: "shots/import.jpg", url: "localhost:8179/import", tab: "Import", cap: "Back-fill history older than 20 days from Govee app exports. The calibration in the file header is saved automatically." },
+  ];
+  const stage = $("#shot-stage"), tabs = $("#shot-tabs"), url = $("#shot-url");
+  const cap = document.createElement("div"); cap.className = "cap2";
+  const imgs = shots.map((s, i) => { const im = new Image(); im.src = s.src; im.alt = s.cap; stage.appendChild(im); return im; });
+  stage.appendChild(cap);
+  let cur = 0, t0 = performance.now(), paused = false;
+  const DUR = 6500;
+  const btns = shots.map((s, i) => {
+    const b = document.createElement("button"); b.type = "button"; b.setAttribute("role", "tab"); b.innerHTML = `${s.tab}<span class="prog"></span>`;
+    b.addEventListener("click", () => { pick(i); paused = true; });
+    tabs.appendChild(b); return b;
+  });
+  const pick = (i) => {
+    cur = i; t0 = performance.now();
+    imgs.forEach((im, k) => im.classList.toggle("show", k === i));
+    btns.forEach((b, k) => { b.setAttribute("aria-selected", String(k === i)); b.querySelector(".prog").style.width = "0"; });
+    url.textContent = shots[i].url; cap.textContent = shots[i].cap;
+  };
+  pick(0);
+  stage.addEventListener("pointerenter", () => { paused = true; });
+  stage.addEventListener("pointerleave", () => { paused = false; t0 = performance.now(); });
+  if (!reduce) {
+    const tick = (t) => {
+      if (!paused) {
+        const k = (t - t0) / DUR; btns[cur].querySelector(".prog").style.width = Math.min(100, k * 100) + "%";
+        if (k >= 1) pick((cur + 1) % shots.length);
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+})();
+
+// ---------- code-size bars ----------
+(() => {
+  const files = [["web.go", 556], ["style.css", 396], ["ble.go", 383], ["store.go", 324], ["chart.go", 322], ["poller.go", 177], ["govee.go", 161], ["importer.go", 137], ["goveeble.go", 106], ["main.go", 106], ["app_test.go", 100], ["app.js", 95], ["goveeble_test.go", 84]];
+  const max = files[0][1], host = $("#bars");
+  host.innerHTML = files.map(([f, n], i) => `<div class="bar" style="--i:${i}"><span class="f">${f}</span><span class="track"><span class="fill" style="display:block;--w:${(n / max * 100).toFixed(1)}%"></span></span><span class="n">${n}</span></div>`).join("");
+  onView(host, () => host.classList.add("play"));
+})();
+
+$("#built").textContent = `Live MySQL cache, ${D.built} · ${D.stats.total.toLocaleString("en-US")} readings`;
+$("#sch-rows").textContent = `${D.stats.total.toLocaleString("en-US")} rows`;
+
+// Starburst: 26 points alternating between two radii.
+$("#burst-star").setAttribute("points", Array.from({ length: 52 }, (_, i) => {
+  const a = (i / 52) * Math.PI * 2 - Math.PI / 2, r = i % 2 ? 80 : 98;
+  return `${(100 + r * Math.cos(a)).toFixed(1)},${(100 + r * Math.sin(a)).toFixed(1)}`;
+}).join(" "));
+})();
+</script>

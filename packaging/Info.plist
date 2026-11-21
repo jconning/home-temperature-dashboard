@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Embedded into the govee-hvac binary by scripts/build.sh. macOS requires a
+  Bluetooth usage description before a program may use Bluetooth; without it a
+  program launched outside a terminal (e.g. by launchd at login) is killed.
+-->
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>com.jimconning.govee-hvac</string>
+	<key>CFBundleName</key>
+	<string>Govee HVAC Thermal Survey</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Downloads temperature and humidity history from your Govee thermometers.</string>
+</dict>
+</plist>

@@ -1,0 +1,29 @@
+{{define "content"}}
+{{with .Room}}
+<section class="room-head panel">
+  <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+  <div class="room-gauge">{{template "gauge" .}}</div>
+  <div class="room-info">
+    <span class="plate">Zone {{printf "%02d" .Zone}} · {{.SKU}}</span>
+    <h1 class="room-title">{{.Name}}</h1>
+    {{template "status" .}}
+    <p class="room-now">{{if .HasReading}}<span class="lcd">{{f1 .TempF}}<small>°F</small></span>{{if .HasHum}} <span class="lcd hum">{{f1 .Hum}}<small>%RH</small></span>{{end}}{{end}}</p>
+    <p class="muted">Last reading {{ago .When}}</p>
+  </div>
+</section>
+{{end}}
+
+<section class="stat-row" aria-label="Statistics for {{.Range.Label}}">
+  {{if .Stats.Count}}
+  <div class="stat"><span class="stat-k">Low</span><span class="stat-v">{{f1 .Stats.TempMin}}°</span></div>
+  <div class="stat"><span class="stat-k">High</span><span class="stat-v">{{f1 .Stats.TempMax}}°</span></div>
+  <div class="stat"><span class="stat-k">Average</span><span class="stat-v">{{f1 .Stats.TempAvg}}°</span></div>
+  <div class="stat"><span class="stat-k">Swing</span><span class="stat-v">{{f1 (sub .Stats.TempMax .Stats.TempMin)}}°</span></div>
+  {{if .Stats.HumAvg.Valid}}<div class="stat"><span class="stat-k">Avg humidity</span><span class="stat-v">{{f1 .Stats.HumAvg.Float64}}%</span></div>{{end}}
+  <div class="stat"><span class="stat-k">Readings</span><span class="stat-v">{{.Stats.Count}}</span></div>
+  {{else}}
+  <div class="stat wide"><span class="stat-k">No readings in this window</span></div>
+  {{end}}
+</section>
+{{template "charts" .}}
+{{end}}

@@ -1,0 +1,60 @@
+{{define "ranges"}}
+<nav class="ranges" aria-label="Time range">
+  {{range .Ranges}}<a href="{{$.RangePath}}?range={{.Key}}" {{if eq .Key $.Range.Key}}aria-current="true"{{end}}>{{.Label}}</a>{{end}}
+</nav>
+{{end}}
+
+{{define "status"}}
+<span class="status st-{{.Status}}"><span class="led" aria-hidden="true"></span><span class="st-icon" aria-hidden="true">{{if eq .Status "online"}}✓{{else if eq .Status "stale"}}!{{else if eq .Status "offline"}}✕{{else}}…{{end}}</span>{{.StatusLabel}}</span>
+{{end}}
+
+{{define "gauge"}}
+<svg class="gauge" viewBox="0 14 200 194" role="img" aria-label="{{if .HasReading}}{{f1 .TempF}} degrees Fahrenheit{{else}}No reading{{end}}">
+  <circle class="bezel" cx="100" cy="110" r="94"/>
+  <circle class="face" cx="100" cy="110" r="86"/>
+  {{gaugeFace}}
+  <text class="gauge-unit" x="100" y="146">°F</text>
+  {{if .HasReading}}
+  <g class="needle" style="--a: {{.Angle}}deg">
+    <path d="M97 110 L100 40 L103 110 Z"/>
+  </g>
+  {{end}}
+  <circle class="cap" cx="100" cy="110" r="8"/>
+</svg>
+{{end}}
+
+{{define "legend"}}
+{{if gt (len .Legend) 1}}
+<ul class="legend">
+  {{range .Legend}}<li><span class="swatch s{{.Slot}}" aria-hidden="true"></span>{{.Name}}</li>{{end}}
+</ul>
+{{end}}
+{{end}}
+
+{{define "charts"}}
+<section class="panel chart-panel">
+  <div class="panel-head">
+    <h2 class="stencil">Supply temperature log</h2>
+    {{template "ranges" .}}
+  </div>
+  {{template "legend" .}}
+  {{.TempChart}}
+  <p class="chart-note">{{.BucketDesc}}{{if .Room}} · shaded band = min/max within each interval{{end}} · lines break where no data was logged</p>
+</section>
+<section class="panel chart-panel">
+  <div class="panel-head">
+    <h2 class="stencil">Relative humidity log</h2>
+  </div>
+  {{template "legend" .}}
+  {{.HumChart}}
+</section>
+<details class="panel datatable">
+  <summary class="stencil">Readings table ({{len .Table.Rows}} rows, {{.BucketDesc}})</summary>
+  <div class="table-scroll">
+    <table>
+      <thead><tr>{{range .Table.Headers}}<th scope="col">{{.}}</th>{{end}}</tr></thead>
+      <tbody>{{range .Table.Rows}}<tr>{{range $i, $c := .}}{{if eq $i 0}}<th scope="row">{{$c}}</th>{{else}}<td>{{if $c}}{{$c}}{{else}}—{{end}}</td>{{end}}{{end}}</tr>{{end}}</tbody>
+    </table>
+  </div>
+</details>
+{{end}}

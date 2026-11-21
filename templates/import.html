@@ -1,0 +1,25 @@
+{{define "content"}}
+<section class="panel import">
+  <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+  <h1 class="stencil">Import sensor history</h1>
+  <p>The Govee cloud API only reports a sensor's <em>current</em> reading, so this terminal builds its history by polling. To back-fill older data, export it from the Govee Home app and upload it here:</p>
+  <ol>
+    <li>In the Govee Home app, open the thermometer, tap the settings gear, then <strong>Data export</strong> (or the export icon on the history chart).</li>
+    <li>Choose the date range. Govee emails you a CSV.</li>
+    <li>Upload that CSV below and pick the zone it belongs to. Readings already on file are skipped.</li>
+  </ol>
+  <form class="import-form" method="post" action="/import" enctype="multipart/form-data">
+    <label>Zone
+      <select name="device" required>
+        <option value="">Select a zone…</option>
+        {{range .Rooms}}<option value="{{.ID}}">{{.Name}}</option>{{end}}
+      </select>
+    </label>
+    <label>CSV file
+      <input type="file" name="file" accept=".csv,text/csv" required>
+    </label>
+    <button class="btn" type="submit">Load into cache</button>
+  </form>
+  <p class="muted">Times in the file are read as local time. °C exports are converted to °F.</p>
+</section>
+{{end}}
